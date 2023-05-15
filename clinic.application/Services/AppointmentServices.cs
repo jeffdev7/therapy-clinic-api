@@ -2,10 +2,9 @@
 using clinic.application.Services.Interfaces;
 using clinic.application.ViewModel;
 using clinic.data.DBConfiguration;
-using clinic.data.Repositories.Interfaces;
 using clinic.domain.Entities;
+using clinic.domain.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace clinic.application.Services
 {
@@ -61,6 +60,10 @@ namespace clinic.application.Services
         public IEnumerable<AppointmentViewModel> GetAppointment()
         {
             return _mapper.Map<IEnumerable<AppointmentViewModel>>(_appointmentRepository.GetAppointments());
+        }
+        public int GetTotalOfAppointments()
+        {
+            return _appointmentRepository.GetTotalOfAppointments();
         }
 
         public async Task<bool> Remove(int id)

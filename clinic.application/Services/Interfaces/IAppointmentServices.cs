@@ -12,5 +12,6 @@ namespace clinic.application.Services.Interfaces
         Task<AppointmentViewModel> Add(AppointmentViewModel vm);
         Task<bool> Remove(int id);
         IEnumerable<AppointmentViewModel> GetAppointment();
+        int GetTotalOfAppointments();
     }
 }

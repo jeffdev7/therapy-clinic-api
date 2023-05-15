@@ -1,6 +1,6 @@
 ﻿using clinic.data.DBConfiguration;
-using clinic.data.Repositories.Interfaces;
 using clinic.domain.Entities;
+using clinic.domain.Repository.Interfaces;
 
 namespace clinic.data.Repositories
 {
@@ -13,6 +13,10 @@ namespace clinic.data.Repositories
         public IQueryable<Appointment> GetAppointments()
         {
             return _context.Appointments;
+        }
+        public int GetTotalOfAppointments()
+        {
+            return _context.Appointments.Count();
         }
     }
 }

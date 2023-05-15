@@ -49,5 +49,10 @@ namespace clinic.api.Controllers
             if (!status) return BadRequest();
             return Ok(status);
         }
+        [HttpGet("Total")]
+        public int GetTotal()
+        {
+            return _appointmentServices.GetTotalOfAppointments();
+        }
     }
 }
