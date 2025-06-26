@@ -3,7 +3,7 @@ using clinic.application.Services;
 using clinic.application.Services.Interfaces;
 using clinic.data.DBConfiguration;
 using clinic.data.Repositories;
-using clinic.data.Repositories.Interfaces;
+using clinic.domain.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
