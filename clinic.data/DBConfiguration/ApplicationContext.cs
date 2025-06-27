@@ -9,8 +9,8 @@ namespace clinic.data.DBConfiguration
         public DbSet<AppointmentRequest> RequestedAppointments { get; set; }
         public DbSet<AppointmentVacancy> AppointmentsVacancies { get; set; }
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) 
-            :base(options){ }
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
+            : base(options) { }
 
         public ApplicationContext() { }
 
@@ -30,9 +30,9 @@ namespace clinic.data.DBConfiguration
                 "cleo@live.com",
                 new DateTime(2023, 05, 06)));
 
-            modelBuilder.Entity<AppointmentVacancy>().HasData(AppointmentVacancy.Create(              
-                [new DateTime(2023, 05, 06, 12, 30,00), 
-                new DateTime(2023, 05, 05, 15, 00, 00), 
+            modelBuilder.Entity<AppointmentVacancy>().HasData(AppointmentVacancy.Create(
+                [new DateTime(2023, 05, 06, 12, 30,00),
+                new DateTime(2023, 05, 05, 15, 00, 00),
                 new DateTime(2023, 05, 10, 15, 45, 00)]));
 
             base.OnModelCreating(modelBuilder);

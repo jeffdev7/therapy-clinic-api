@@ -8,15 +8,15 @@ namespace clinic.data.DBConfiguration
     {
         public ApplicationContext CreateDbContext(string[] args)
         {
-           IConfigurationRoot config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
+            IConfigurationRoot config = new ConfigurationBuilder()
+                 .SetBasePath(Directory.GetCurrentDirectory())
+                 .AddJsonFile("appsettings.json")
+                 .Build();
             var builder = new DbContextOptionsBuilder<ApplicationContext>();
             var connection = config.GetConnectionString("DefaultConnection");
             builder.UseSqlServer(connection);
 
-                return new ApplicationContext(builder.Options);
+            return new ApplicationContext(builder.Options);
         }
     }
 }

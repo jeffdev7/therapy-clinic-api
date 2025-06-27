@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
-using clinic.application.ViewModel;
+using clinic.CrossCutting.Dto;
 using clinic.domain.Entities;
 
 namespace clinic.application.AutoMapper
 {
     public sealed class ViewModelDomainMapping : Profile
-    { 
-        public ViewModelDomainMapping() 
+    {
+        public ViewModelDomainMapping()
         {
-            CreateMap<AppointmentViewModel, Appointment>();
+            CreateMap<AppointmentRequestViewModel, AppointmentRequest>();
+            CreateMap<AppointmentVacancyViewModel, AppointmentVacancy>();
         }
 
     }

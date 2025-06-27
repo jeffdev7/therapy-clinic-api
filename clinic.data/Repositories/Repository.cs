@@ -27,8 +27,8 @@ namespace clinic.data.Repositories
             GC.SuppressFinalize(this);
         }
 
-        public IQueryable<TEntity> GetAll() =>  _dbSet.AsNoTracking();
-        
+        public IQueryable<TEntity> GetAll() => _dbSet.AsNoTracking();
+
 
         public IQueryable<TEntity> GetAllBy(Func<TEntity, bool> exp)
         {
@@ -40,7 +40,7 @@ namespace clinic.data.Repositories
             return _context.Set<TEntity>().Find(id);
         }
 
-        public void Remove(int id)
+        public void Remove(Guid id)
         {
             _context.Remove(id);
             SaveChanges();

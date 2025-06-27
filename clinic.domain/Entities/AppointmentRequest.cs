@@ -10,10 +10,10 @@
         protected AppointmentRequest()
         {
         }
-        public static AppointmentRequest Create(string ClientName, 
-            string DocumentNumber, 
-            string Phone, 
-            string Email, 
+        public static AppointmentRequest Create(string ClientName,
+            string DocumentNumber,
+            string Phone,
+            string Email,
             DateTime RequestedTime) =>
             new()
             {

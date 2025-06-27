@@ -1,6 +1,4 @@
 ﻿using clinic.data.DBConfiguration;
-using clinic.domain.Entities;
-using clinic.domain.Repository.Interfaces;
 
 namespace clinic.data.Repositories
 {
