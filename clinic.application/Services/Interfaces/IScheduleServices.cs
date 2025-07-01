@@ -6,5 +6,6 @@ namespace clinic.application.Services.Interfaces
     {
         Task Add(DateTime day, TimeSpan startTime, TimeSpan endTime, TimeSpan slotDuration);
         Task<ScheduleAppointmentRequestViewModel> AddSchedule(ScheduleAppointmentRequestViewModel vm);
+        ScheduleViewModel GetAll();
     }
 }

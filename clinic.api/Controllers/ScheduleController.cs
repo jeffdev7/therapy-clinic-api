@@ -15,17 +15,10 @@ namespace clinic.api.Controllers
             _appointmentServices = appointmentServices;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<ScheduleViewModel>> Add([FromBody] ScheduleAppointmentRequestViewModel vm)
+        [HttpGet]
+        public ScheduleViewModel GetAll()
         {
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-                var termine = await _appointmentServices.AddSchedule(vm);
-                return Ok(termine);
-            }
-
-
+            return _appointmentServices.GetAll();
         }
     }
 }

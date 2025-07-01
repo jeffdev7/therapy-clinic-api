@@ -10,16 +10,16 @@ namespace clinic.CrossCutting.Dto
         public string DocumentNumber { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public TimeSlotViewModel RequestedTime { get; set; }
+        public NewAppointmentTimeSlotViewModel RequestedTime { get; set; }
     }
-    public class ScheduleAppointmentRequestViewModel
+    public class GetAppointmentRequestViewModel
     {
         [Key]
         public Guid Id { get; set; }
-        public DateTime Day { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
-        public TimeSpan SlotDuration { get; set; }
-        public bool IsBooked { get; set; } = false;
+        public string ClientName { get; set; }
+        public string DocumentNumber { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public TimeSlotViewModel RequestedTime { get; set; }
     }
 }

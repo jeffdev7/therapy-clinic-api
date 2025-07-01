@@ -36,22 +36,24 @@ namespace clinic.application.Services
                     && timeSlot.End == termine.RequestedTime.End
                     && timeSlot.IsBooked is false)
                 {
-                    _context.Entry(timeSlot).State = EntityState.Modified;
                     timeSlot.IsBooked = true;
+                    _context.Entry(timeSlot).State = EntityState.Modified;
                     _timeSlotRepository.Update(timeSlot);
+
+                    termine.RequestedTime = timeSlot;
+                    _context.RequestedAppointments.Add(termine);
+
+                    await _context.SaveChangesAsync();
+                    return _mapper.Map<AppointmentRequestViewModel>(termine);
                 }
-
             }
+            return vm;
 
-            _context.Attach(termine.RequestedTime);
-            _context.RequestedAppointments.Add(termine);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<AppointmentRequestViewModel>(termine);
         }
 
-        public IEnumerable<AppointmentRequestViewModel> GetAll()
+        public IEnumerable<GetAppointmentRequestViewModel> GetAll()
         {
-            return _mapper.Map<IEnumerable<AppointmentRequestViewModel>>(_appointmentRepository
+            return _mapper.Map<IEnumerable<GetAppointmentRequestViewModel>>(_appointmentRepository
                 .GetAll()
                 .Include(_ => _.RequestedTime)
                 .OrderBy(_ => _.RequestedTime.IsBooked));

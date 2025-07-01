@@ -9,9 +9,11 @@ namespace clinic.application.AutoMapper
         public ViewModelDomainMapping()
         {
             CreateMap<AppointmentRequestViewModel, AppointmentRequest>();
+            CreateMap<GetAppointmentRequestViewModel, AppointmentRequest>();
             CreateMap<AppointmentVacancyViewModel, AppointmentVacancy>();
             CreateMap<ScheduleAppointmentRequestViewModel, Schedule>();
             CreateMap<TimeSlotViewModel, TimeSlot>();
+            CreateMap<NewAppointmentTimeSlotViewModel, TimeSlot>();
 
         }
 
