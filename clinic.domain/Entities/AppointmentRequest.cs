@@ -6,7 +6,7 @@
         public string? DocumentNumber { get; set; }
         public string? Phone { get; set; }
         public string? Email { get; set; }
-        public DateTime RequestedTime { get; set; }
+        public TimeSlot RequestedTime { get; set; }
         protected AppointmentRequest()
         {
         }
@@ -14,7 +14,7 @@
             string DocumentNumber,
             string Phone,
             string Email,
-            DateTime RequestedTime) =>
+            TimeSlot RequestedTime) =>
             new()
             {
                 ClientName = ClientName,

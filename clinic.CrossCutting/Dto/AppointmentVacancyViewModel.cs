@@ -6,6 +6,6 @@ namespace clinic.CrossCutting.Dto
     {
         [Key]
         public Guid Id { get; set; }
-        public IEnumerable<DateTime> AppointmentTime { get; set; }
+        public List<DateTime> AppointmentTime { get; set; }
     }
 }

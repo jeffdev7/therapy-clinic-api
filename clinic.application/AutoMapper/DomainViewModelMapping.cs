@@ -8,8 +8,11 @@ namespace clinic.application.AutoMapper
     {
         public DomainViewModelMapping()
         {
-            CreateMap<AppointmentRequest, AppointmentRequestViewModel>();
+            CreateMap<AppointmentRequest, AppointmentRequestViewModel>()
+                .ForMember(dest => dest.RequestedTime, opt => opt.MapFrom(src => src.RequestedTime));
             CreateMap<AppointmentVacancy, AppointmentVacancyViewModel>();
+            CreateMap<Schedule, ScheduleAppointmentRequestViewModel>();
+            CreateMap<TimeSlot, TimeSlotViewModel>();
         }
     }
 }

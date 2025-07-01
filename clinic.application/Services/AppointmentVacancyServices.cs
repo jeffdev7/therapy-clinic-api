@@ -24,7 +24,10 @@ namespace clinic.application.Services
 
         public async Task<AppointmentVacancyViewModel> Add(AppointmentVacancyViewModel vm)
         {
-            var appointmentTime = _appointmentRepository.GetAll().Select(_ => _.AppointmentTime).ToList();
+            var appointmentTime = _appointmentRepository
+                .GetAll()
+                .Select(_ => _.AppointmentTime)
+                .ToList();
             //DateTime requestDate = vm.AppointmentTime;
 
             //if (appointmentTime.Contains(requestDate))
@@ -42,9 +45,14 @@ namespace clinic.application.Services
             GC.SuppressFinalize(this);
         }
 
-        public IEnumerable<AppointmentVacancyViewModel> GetAll()
+        public IList<AppointmentVacancyViewModel> GetAll()//remove
         {
-            return _mapper.Map<IEnumerable<AppointmentVacancyViewModel>>(_appointmentRepository.GetAll());
+
+
+            return _mapper.Map<IList<AppointmentVacancyViewModel>>(_appointmentRepository
+                .GetAll().Where(x => x.AppointmentTime != null && x.AppointmentTime.Any())
+            .OrderBy(x => x.AppointmentTime.Min())
+            .ToList());
         }
 
         public AppointmentVacancyViewModel GetById(Guid id)
@@ -81,6 +89,13 @@ namespace clinic.application.Services
         public int GetTotalOfAppointments()
         {
             throw new NotImplementedException();
+        }
+
+        public IQueryable<AppointmentVacancyViewModel> GetAllAppointment()
+        {
+            var t = _mapper.Map<IQueryable<AppointmentVacancyViewModel>>(_appointmentRepository.GetAll());
+            return t;
+
         }
     }
 }

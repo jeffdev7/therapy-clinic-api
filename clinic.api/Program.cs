@@ -1,8 +1,5 @@
 using clinic.application.AutoMapper;
-using clinic.application.Services;
-using clinic.application.Services.Interfaces;
 using clinic.data.DBConfiguration;
-using clinic.data.Repositories;
 using clinic.IoC;
 using Microsoft.EntityFrameworkCore;
 

@@ -14,10 +14,14 @@ namespace clinic.IoC
             //repo
             services.AddScoped<IAppointmentRequestRepository, AppointmentRequestRepository>();
             services.AddScoped<IAppointmentVacancyRepository, AppointmentVacancyRepository>();
+            services.AddScoped<IScheduleRepository, ScheduleRepository>();
+            services.AddScoped<ITimeSlotRepository, TimeSlotRepository>();
 
             //service
             services.AddScoped<IAppointmentRequestServices, AppointmentRequestServices>();
             services.AddScoped<IAppointmentVacancyServices, AppointmentVacancyServices>();
+            services.AddScoped<IScheduleServices, ScheduleServices>();
+            services.AddScoped<ITimeSlotServices, TimeSlotServices>();
 
             services.AddDbContext<ApplicationContext>();
             //services.AddScoped<HttpContextAccessor>();

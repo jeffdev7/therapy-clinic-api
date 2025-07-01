@@ -22,6 +22,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clinic.IoC", "clinic.IoC\clinic.IoC.csproj", "{9F0257C2-C6FA-4A21-821B-1F540AB5DAA9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clinic.CrossCutting", "clinic.CrossCutting\clinic.CrossCutting.csproj", "{65855F94-10F8-4DFB-8933-75FE34E5A7FD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{49600EBA-0B89-41F6-9392-E0FD2F79C8F3} = {49600EBA-0B89-41F6-9392-E0FD2F79C8F3}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4-CrossCutting", "4-CrossCutting", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject

@@ -12,49 +12,49 @@ namespace clinic.application.Services
     {
         private readonly IMapper _mapper;
         private readonly IAppointmentRequestRepository _appointmentRepository;
+        private readonly ITimeSlotRepository _timeSlotRepository;
         private readonly ApplicationContext _context;
 
-        public AppointmentRequestServices(IMapper mapper, IAppointmentRequestRepository appointmentRepository,
+        public AppointmentRequestServices(IMapper mapper, IAppointmentRequestRepository appointmentRepository, ITimeSlotRepository timeSlotRepository,
             ApplicationContext context)
         {
             _mapper = mapper;
             _appointmentRepository = appointmentRepository;
             _context = context;
+            _timeSlotRepository = timeSlotRepository;
         }
 
         public async Task<AppointmentRequestViewModel> Add(AppointmentRequestViewModel vm)
         {
-            var appointmentTime = _appointmentRepository.GetAll().Select(_ => _.RequestedTime).ToList();
-            DateTime requestDate = vm.RequestedTime;
+            var timeSlots = _timeSlotRepository.GetAll().ToList();
 
-            if (appointmentTime.Contains(requestDate))
-            {
-                throw new Exception($"THIS DATE IS NOT AVAILABLE AT THE MOMENT.");
-            }
             AppointmentRequest termine = _mapper.Map<AppointmentRequest>(vm);
+
+            foreach (var timeSlot in timeSlots)
+            {
+                if (timeSlot.Start == termine.RequestedTime.Start
+                    && timeSlot.End == termine.RequestedTime.End
+                    && timeSlot.IsBooked is false)
+                {
+                    _context.Entry(timeSlot).State = EntityState.Modified;
+                    timeSlot.IsBooked = true;
+                    _timeSlotRepository.Update(timeSlot);
+                }
+
+            }
+
+            _context.Attach(termine.RequestedTime);
             _context.RequestedAppointments.Add(termine);
             await _context.SaveChangesAsync();
             return _mapper.Map<AppointmentRequestViewModel>(termine);
         }
 
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
-
         public IEnumerable<AppointmentRequestViewModel> GetAll()
         {
-            return _mapper.Map<IEnumerable<AppointmentRequestViewModel>>(_appointmentRepository.GetAll());
-        }
-
-        public AppointmentRequestViewModel GetById(Guid id)
-        {
-            return _mapper.Map<AppointmentRequestViewModel>(_appointmentRepository.GetById(id));
-        }
-
-        public IEnumerable<AppointmentRequestViewModel> GetAppointment()
-        {
-            return _mapper.Map<IEnumerable<AppointmentRequestViewModel>>(_appointmentRepository.GetAppointments());
+            return _mapper.Map<IEnumerable<AppointmentRequestViewModel>>(_appointmentRepository
+                .GetAll()
+                .Include(_ => _.RequestedTime)
+                .OrderBy(_ => _.RequestedTime.IsBooked));
         }
 
         public async Task<bool> Remove(Guid id)
@@ -76,6 +76,10 @@ namespace clinic.application.Services
             _context.RequestedAppointments.Update(termine);
             await _context.SaveChangesAsync();
             return _mapper.Map<AppointmentRequestViewModel>(termine);
+        }
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }

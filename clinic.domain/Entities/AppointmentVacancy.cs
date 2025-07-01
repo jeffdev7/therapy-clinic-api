@@ -2,11 +2,11 @@
 {
     public class AppointmentVacancy : BaseEntity
     {
-        public IEnumerable<DateTime> AppointmentTime { get; set; }
+        public List<DateTime> AppointmentTime { get; set; }
         protected AppointmentVacancy()
         {
         }
-        public static AppointmentVacancy Create(IEnumerable<DateTime> AppointmentTime) =>
+        public static AppointmentVacancy Create(List<DateTime> AppointmentTime) =>
             new()
             {
                 AppointmentTime = AppointmentTime
