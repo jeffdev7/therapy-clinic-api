@@ -26,24 +26,6 @@ namespace clinic.application.Services
             _context = context;
         }
 
-
-        public async Task Add(DateTime day, TimeSpan startTime, TimeSpan endTime, TimeSpan slotDuration)
-        {
-            var test = new Schedule();
-            test.GenerateTimeSlots(day, startTime, endTime, slotDuration);
-
-            //_context.AppointmentsVacancies.Add(termine);
-            await _context.SaveChangesAsync();
-            //return _mapper.Map<AppointmentVacancyViewModel>(termine);
-        }
-        public async Task<ScheduleAppointmentRequestViewModel> AddSchedule(ScheduleAppointmentRequestViewModel vm)
-        {
-            Schedule termine = _mapper.Map<Schedule>(vm);
-            _context.Schedules.Add(termine);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<ScheduleAppointmentRequestViewModel>(termine);
-        }
-
         public ScheduleViewModel GetAll()
         {
             var appointments = _mapper.Map<IEnumerable<AppointmentRequestViewModel>>(_appointmentRepository
@@ -55,15 +37,29 @@ namespace clinic.application.Services
                 .GetAll()
                 .Where(_ => _.IsBooked == false));
 
-            return new ScheduleViewModel
+            var test = new ScheduleViewModel
             {
                 Appointments = appointments,
                 AvailableSlots = slots
             };
+
+            Schedule schedule = _mapper.Map<Schedule>(test);
+            //_context.Schedules.Add(schedule);//TODO
+            //_context.SaveChanges();
+
+            return test;
         }
         public void Dispose()
         {
             GC.SuppressFinalize(this);
+        }
+
+        public async Task<ScheduleViewModel> Add(ScheduleViewModel vm)
+        {
+            Schedule schedule = _mapper.Map<Schedule>(vm);
+            _context.Schedules.Add(schedule);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<ScheduleViewModel>(schedule);
         }
     }
 }

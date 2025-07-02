@@ -7,7 +7,6 @@ namespace clinic.data.DBConfiguration
     public sealed class ApplicationContext : IdentityDbContext<User>
     {
         public DbSet<AppointmentRequest> RequestedAppointments { get; set; }
-        public DbSet<AppointmentVacancy> AppointmentsVacancies { get; set; }
         public DbSet<TimeSlot> TimeSlots { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
 
