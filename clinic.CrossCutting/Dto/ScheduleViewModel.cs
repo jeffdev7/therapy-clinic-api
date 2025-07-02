@@ -1,5 +1,4 @@
-﻿using clinic.domain.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace clinic.CrossCutting.Dto
 {

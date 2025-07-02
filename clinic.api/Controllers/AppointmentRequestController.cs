@@ -16,7 +16,7 @@ namespace clinic.api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<GetAppointmentRequestViewModel>> GetAppointments()
+        public IEnumerable<GetAppointmentRequestViewModel> GetAppointments()
         {
             return _appointmentServices.GetAll();
         }
@@ -24,10 +24,10 @@ namespace clinic.api.Controllers
         [HttpPost]
         public async Task<ActionResult<AppointmentRequestViewModel>> Add([FromBody] AppointmentRequestViewModel vm)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
             var termine = await _appointmentServices.Add(vm);
-            return Ok(termine);
+            if (termine.IsError)
+                return BadRequest(termine.Errors);
+            return Ok(termine.Value);
         }
     }
 }

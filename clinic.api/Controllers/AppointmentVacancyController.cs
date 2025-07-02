@@ -1,5 +1,4 @@
 ﻿using clinic.application.Services.Interfaces;
-using clinic.CrossCutting.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace clinic.api.Controllers

@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using clinic.application.Services.Interfaces;
 using clinic.CrossCutting.Dto;
+using clinic.CrossCutting.Validation;
 using clinic.data.DBConfiguration;
 using clinic.domain.Entities;
 using clinic.domain.Repository.Interfaces;
+using ErrorOr;
 using Microsoft.EntityFrameworkCore;
 
 namespace clinic.application.Services
@@ -24,30 +26,52 @@ namespace clinic.application.Services
             _timeSlotRepository = timeSlotRepository;
         }
 
-        public async Task<AppointmentRequestViewModel> Add(AppointmentRequestViewModel vm)
+        public async Task<ErrorOr<AppointmentRequestViewModel>> Add(AppointmentRequestViewModel vm)
         {
-            var timeSlots = _timeSlotRepository.GetAll().ToList();
+            List<Error> validationErrors = new List<Error>();
+            var timeSlot = _timeSlotRepository.GetAll()
+                .SingleOrDefault(_ => _.Start == vm.RequestedTime.Start
+            && _.End == vm.RequestedTime.End
+            && _.IsBooked == false);
 
             AppointmentRequest termine = _mapper.Map<AppointmentRequest>(vm);
 
-            foreach (var timeSlot in timeSlots)
+            var result = new AddAppointmentValidator(_timeSlotRepository).Validate(vm);
+
+            if (!result.IsValid)
             {
-                if (timeSlot.Start == termine.RequestedTime.Start
-                    && timeSlot.End == termine.RequestedTime.End
-                    && timeSlot.IsBooked is false)
-                {
-                    timeSlot.IsBooked = true;
-                    _context.Entry(timeSlot).State = EntityState.Modified;
-                    _timeSlotRepository.Update(timeSlot);
+                validationErrors = result.Errors.Select(_ => Error.Validation(_.PropertyName, _.ErrorMessage)).ToList();
 
-                    termine.RequestedTime = timeSlot;
-                    _context.RequestedAppointments.Add(termine);
-
-                    await _context.SaveChangesAsync();
-                    return _mapper.Map<AppointmentRequestViewModel>(termine);
-                }
+                return ErrorOr<AppointmentRequestViewModel>.From(validationErrors);
             }
-            return vm;
+
+            timeSlot!.IsBooked = true;
+            _context.Entry(timeSlot).State = EntityState.Modified;
+            _timeSlotRepository.Update(timeSlot);
+
+            termine.RequestedTime = timeSlot;
+            _context.RequestedAppointments.Add(termine);
+
+            await _context.SaveChangesAsync();
+            return _mapper.Map<AppointmentRequestViewModel>(termine);
+
+            //foreach (var timeSlot in timeSlots)
+            //{
+            //    if (timeSlot.Start == termine.RequestedTime.Start
+            //        && timeSlot.End == termine.RequestedTime.End
+            //        && timeSlot.IsBooked is false)
+            //    {
+            //        timeSlot.IsBooked = true;
+            //        _context.Entry(timeSlot).State = EntityState.Modified;
+            //        _timeSlotRepository.Update(timeSlot);
+
+            //        termine.RequestedTime = timeSlot;
+            //        _context.RequestedAppointments.Add(termine);
+
+            //        await _context.SaveChangesAsync();
+            //        return _mapper.Map<AppointmentRequestViewModel>(termine);
+            //    }
+            //}
 
         }
 

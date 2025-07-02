@@ -1,4 +1,5 @@
 ﻿using clinic.CrossCutting.Dto;
+using ErrorOr;
 
 namespace clinic.application.Services.Interfaces
 {
@@ -6,7 +7,7 @@ namespace clinic.application.Services.Interfaces
     {
         IEnumerable<GetAppointmentRequestViewModel> GetAll();
         Task<AppointmentRequestViewModel> Update(AppointmentRequestViewModel vm);
-        Task<AppointmentRequestViewModel> Add(AppointmentRequestViewModel vm);
+        Task<ErrorOr<AppointmentRequestViewModel>> Add(AppointmentRequestViewModel vm);
         Task<bool> Remove(Guid id);
     }
 }
