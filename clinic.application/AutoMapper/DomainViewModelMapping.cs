@@ -9,10 +9,10 @@ namespace clinic.application.AutoMapper
         public DomainViewModelMapping()
         {
             CreateMap<AppointmentRequest, AppointmentRequestViewModel>()
-                .ForMember(dest => dest.RequestedTime, opt => opt.MapFrom(src => src.RequestedTime));
-            CreateMap<TimeSlot, TimeSlotViewModel>();
-            CreateMap<TimeSlot, NewAppointmentTimeSlotViewModel>();
-            CreateMap<AppointmentRequest, GetAppointmentRequestViewModel>();
+                .ForMember(dest => dest.RequestedTime, opt => opt.MapFrom(src => src.RequestedTime)).ReverseMap();
+            CreateMap<TimeSlot, TimeSlotViewModel>().ReverseMap();
+            CreateMap<TimeSlot, NewAppointmentTimeSlotViewModel>().ReverseMap();
+            CreateMap<AppointmentRequest, GetAppointmentRequestViewModel>().ReverseMap();
         }
     }
 }

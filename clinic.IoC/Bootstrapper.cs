@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace clinic.IoC
 {
-    public class Boostrapper
+    public class Bootstrapper
     {
         public static void RegisterServices(IServiceCollection services)
         {
