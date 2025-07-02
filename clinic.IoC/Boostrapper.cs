@@ -13,7 +13,6 @@ namespace clinic.IoC
         {
             //repo
             services.AddScoped<IAppointmentRequestRepository, AppointmentRequestRepository>();
-            services.AddScoped<IScheduleRepository, ScheduleRepository>();
             services.AddScoped<ITimeSlotRepository, TimeSlotRepository>();
 
             //service

@@ -8,7 +8,6 @@ namespace clinic.data.DBConfiguration
     {
         public DbSet<AppointmentRequest> RequestedAppointments { get; set; }
         public DbSet<TimeSlot> TimeSlots { get; set; }
-        public DbSet<Schedule> Schedules { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options) { }

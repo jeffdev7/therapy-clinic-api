@@ -17,7 +17,7 @@ namespace clinic.application.Services
         private readonly ITimeSlotRepository _timeSlotRepository;
         private readonly ApplicationContext _context;
 
-        public AppointmentRequestServices(IMapper mapper, IAppointmentRequestRepository appointmentRepository, 
+        public AppointmentRequestServices(IMapper mapper, IAppointmentRequestRepository appointmentRepository,
             ITimeSlotRepository timeSlotRepository,
             ApplicationContext context)
         {

@@ -2,7 +2,6 @@
 using clinic.application.Services.Interfaces;
 using clinic.CrossCutting.Dto;
 using clinic.data.DBConfiguration;
-using clinic.domain.Entities;
 using clinic.domain.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,29 +36,15 @@ namespace clinic.application.Services
                 .GetAll()
                 .Where(_ => _.IsBooked == false));
 
-            var test = new ScheduleViewModel
+            return new ScheduleViewModel
             {
                 Appointments = appointments,
                 AvailableSlots = slots
             };
-
-            Schedule schedule = _mapper.Map<Schedule>(test);
-            //_context.Schedules.Add(schedule);//TODO
-            //_context.SaveChanges();
-
-            return test;
         }
         public void Dispose()
         {
             GC.SuppressFinalize(this);
-        }
-
-        public async Task<ScheduleViewModel> Add(ScheduleViewModel vm)
-        {
-            Schedule schedule = _mapper.Map<Schedule>(vm);
-            _context.Schedules.Add(schedule);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<ScheduleViewModel>(schedule);
         }
     }
 }
