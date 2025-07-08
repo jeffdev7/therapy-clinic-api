@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using clinic.data.DBConfiguration;
+﻿using clinic.data.DBConfiguration;
 using clinic.domain.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace clinic.MVC.Controllers
 {
@@ -23,24 +18,6 @@ namespace clinic.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.TimeSlots.ToListAsync());
-        }
-
-        // GET: TimeSlots/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var timeSlot = await _context.TimeSlots
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (timeSlot == null)
-            {
-                return NotFound();
-            }
-
-            return View(timeSlot);
         }
 
         // GET: TimeSlots/Create

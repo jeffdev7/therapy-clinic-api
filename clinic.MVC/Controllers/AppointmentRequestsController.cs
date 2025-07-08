@@ -1,51 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using clinic.application.Services.Interfaces;
+using clinic.CrossCutting.Dto;
+using clinic.data.DBConfiguration;
+using clinic.domain;
+using clinic.domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using clinic.data.DBConfiguration;
-using clinic.domain.Entities;
 
 namespace clinic.MVC.Controllers
 {
     public class AppointmentRequestsController : Controller
     {
         private readonly ApplicationContext _context;
+        private readonly IAppointmentRequestServices _appointmentRequestServices;
+        private readonly ITimeSlotServices _timeSlotServices;
 
-        public AppointmentRequestsController(ApplicationContext context)
+        public AppointmentRequestsController(ApplicationContext context, IAppointmentRequestServices appointmentRequestServices
+            , ITimeSlotServices timeSlotServices)
         {
             _context = context;
+            _appointmentRequestServices = appointmentRequestServices;
+            _timeSlotServices = timeSlotServices;
         }
 
         // GET: AppointmentRequests
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber)
         {
-            return View(await _context.RequestedAppointments.ToListAsync());
-        }
+            var appointments = _appointmentRequestServices.GetAllAppointments();
 
-        // GET: AppointmentRequests/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (pageNumber < 1)
+                pageNumber = 1;
+            int pageSize = 6;
 
-            var appointmentRequest = await _context.RequestedAppointments
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (appointmentRequest == null)
-            {
-                return NotFound();
-            }
-
-            return View(appointmentRequest);
+            return View(await Pagination<AppointmentRequestViewModel>.CreateAsync(appointments, pageNumber, pageSize));
         }
 
         // GET: AppointmentRequests/Create
         public IActionResult Create()
         {
+            var timeslots = _timeSlotServices.GetAvailableTimeSlots();
+            var t = ViewBag.TimeSlots = timeslots.Select(_ => new SelectListItem
+            {
+                Value = _.Id.ToString(),
+                Text = $"{_.Start:dd/MM/yyyy HH:mm} - {_.End:dd/MM/yyyy HH:mm}",
+
+            }).ToList();
             return View();
         }
 
@@ -54,15 +53,14 @@ namespace clinic.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClientName,DocumentNumber,Phone,Email,Id,CreatedAt,UpdatedAt")] AppointmentRequest appointmentRequest)
+        public IActionResult Create(AppointmentRequestViewModel appointmentRequest)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    appointmentRequest.Id = Guid.NewGuid();
-            //    _context.Add(appointmentRequest);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
+            var result = _appointmentRequestServices.Add(appointmentRequest).GetAwaiter().GetResult();
+
+            LoadViewBags();
+
+
+
             return View(appointmentRequest);
         }
 
@@ -153,6 +151,10 @@ namespace clinic.MVC.Controllers
         private bool AppointmentRequestExists(Guid id)
         {
             return _context.RequestedAppointments.Any(e => e.Id == id);
+        }
+        private void LoadViewBags()
+        {
+            ViewBag.TimeSlots = _appointmentRequestServices.GetAll().ToList();
         }
     }
 }

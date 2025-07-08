@@ -1,40 +1,39 @@
-﻿@model IEnumerable<clinic.domain.Entities.AppointmentRequest>
+﻿@model Pagination<AppointmentRequestViewModel>
+@using clinic.CrossCutting.Dto
+@using clinic.domain
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Appointment</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Book an appointment</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ClientName)
+                ClientName
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DocumentNumber)
+                DocumentNumber
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                Phone
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
+                RequestedTime
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Items) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ClientName)
@@ -48,15 +47,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedAt)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestedTime)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

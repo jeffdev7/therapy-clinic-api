@@ -44,5 +44,11 @@ namespace clinic.application.Services
         {
             GC.SuppressFinalize(this);
         }
+
+        public IEnumerable<TimeSlotViewModel> GetAvailableTimeSlots()
+        {
+            var availableSlots = _timeSlotRepository.GetAll().Where(_ => _.IsBooked == false);
+            return _mapper.Map<IEnumerable<TimeSlotViewModel>>(availableSlots);
+        }
     }
 }

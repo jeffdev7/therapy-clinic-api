@@ -13,7 +13,7 @@ namespace clinic.CrossCutting.Dto
     public class NewAppointmentTimeSlotViewModel
     {
         [Key]
-        public Guid Id { get; set; }
+        //public Guid Id { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
     }

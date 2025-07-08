@@ -2,7 +2,6 @@ using clinic.application.AutoMapper;
 using clinic.data.DBConfiguration;
 using clinic.IoC;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 

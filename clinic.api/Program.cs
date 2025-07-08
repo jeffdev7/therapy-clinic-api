@@ -9,7 +9,7 @@ var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationContext>(options =>
 options.UseSqlServer(connection));
 
-builder.Services.AddAutoMapper(typeof(DomainViewModelMapping), typeof(ViewModelDomainMapping));
+builder.Services.AddAutoMapper(typeof(DomainViewModelMapping));
 
 
 builder.Services.AddControllers();
@@ -17,7 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-Boostrapper.RegisterServices(builder.Services);
+Bootstrapper.RegisterServices(builder.Services);
 builder.Services.AddDbContext<ApplicationContext>();
 var app = builder.Build();
 

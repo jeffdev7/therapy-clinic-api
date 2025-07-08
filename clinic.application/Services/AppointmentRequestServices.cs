@@ -108,5 +108,18 @@ namespace clinic.application.Services
         {
             GC.SuppressFinalize(this);
         }
+
+        public IQueryable<AppointmentRequestViewModel> GetAllAppointments()
+        {
+            return _appointmentRepository.GetAll()
+                 .Select(_ => new AppointmentRequestViewModel
+                 {
+                     ClientName = _.ClientName,
+                     DocumentNumber = _.DocumentNumber,
+                     Email = _.Email,
+                     Phone = _.Phone,
+                     RequestedTime = _mapper.Map<NewAppointmentTimeSlotViewModel>(_.RequestedTime)
+                 });
+        }
     }
 }
