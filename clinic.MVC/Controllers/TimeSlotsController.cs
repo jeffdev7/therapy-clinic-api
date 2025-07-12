@@ -1,4 +1,7 @@
-﻿using clinic.data.DBConfiguration;
+﻿using clinic.application.Services.Interfaces;
+using clinic.CrossCutting.Dto;
+using clinic.data.DBConfiguration;
+using clinic.domain;
 using clinic.domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,16 +11,24 @@ namespace clinic.MVC.Controllers
     public class TimeSlotsController : Controller
     {
         private readonly ApplicationContext _context;
+        private readonly ITimeSlotServices _timeSlotServices;
 
-        public TimeSlotsController(ApplicationContext context)
+        public TimeSlotsController(ApplicationContext context, ITimeSlotServices timeSlotServices)
         {
             _context = context;
+            _timeSlotServices = timeSlotServices;
         }
 
         // GET: TimeSlots
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber)
         {
-            return View(await _context.TimeSlots.ToListAsync());
+            var timeSlots = _timeSlotServices.GetAll();
+
+            if (pageNumber < 1)
+                pageNumber = 1;
+            int pageSize = 6;
+
+            return View(await Pagination<TimeSlotViewModel>.CreateAsync(timeSlots, pageNumber, pageSize));
         }
 
         // GET: TimeSlots/Create
@@ -26,21 +37,12 @@ namespace clinic.MVC.Controllers
             return View();
         }
 
-        // POST: TimeSlots/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Start,End,IsBooked,Id,CreatedAt,UpdatedAt")] TimeSlot timeSlot)
+        public async Task<IActionResult> Create(TimeSlotViewModel timeSlot)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    timeSlot.Id = Guid.NewGuid();
-            //    _context.Add(timeSlot);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-            return View(timeSlot);
+            var test = await _timeSlotServices.AddTimeSlot(timeSlot);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: TimeSlots/Edit/5
@@ -56,12 +58,9 @@ namespace clinic.MVC.Controllers
             {
                 return NotFound();
             }
-            return View(timeSlot);
+            return RedirectToAction(nameof(Index));
         }
 
-        // POST: TimeSlots/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Start,End,IsBooked,Id,CreatedAt,UpdatedAt")] TimeSlot timeSlot)

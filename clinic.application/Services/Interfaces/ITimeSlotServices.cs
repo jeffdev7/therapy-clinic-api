@@ -8,5 +8,6 @@ namespace clinic.application.Services.Interfaces
         IEnumerable<TimeSlotViewModel> GetTimeSlot();
         Task<TimeSlotViewModel> Update(TimeSlotViewModel vm);
         IEnumerable<TimeSlotViewModel> GetAvailableTimeSlots();
+        IQueryable<TimeSlotViewModel> GetAll();
     }
 }

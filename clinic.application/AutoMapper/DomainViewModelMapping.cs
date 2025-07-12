@@ -13,6 +13,7 @@ namespace clinic.application.AutoMapper
             CreateMap<TimeSlot, TimeSlotViewModel>().ReverseMap();
             CreateMap<TimeSlot, NewAppointmentTimeSlotViewModel>().ReverseMap();
             CreateMap<AppointmentRequest, GetAppointmentRequestViewModel>().ReverseMap();
+            CreateMap<AppointmentRequest, AppointmentRequestIndexViewModel>().ReverseMap();
         }
     }
 }

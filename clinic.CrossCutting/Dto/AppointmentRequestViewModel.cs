@@ -12,6 +12,16 @@ namespace clinic.CrossCutting.Dto
         public string Email { get; set; }
         public NewAppointmentTimeSlotViewModel RequestedTime { get; set; }
     }
+    public class AppointmentRequestIndexViewModel
+    {
+        [Key]
+        public Guid Id { get; set; }
+        public string ClientName { get; set; }
+        public string DocumentNumber { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public AppointmentTimeSlotIndexViewModel RequestedTime { get; set; }
+    }
     public class GetAppointmentRequestViewModel
     {
         [Key]

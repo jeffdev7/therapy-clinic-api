@@ -1,4 +1,4 @@
-﻿@model Pagination<AppointmentRequestViewModel>
+﻿@model Pagination<AppointmentRequestIndexViewModel>
 @using clinic.CrossCutting.Dto
 @using clinic.domain
 
@@ -48,7 +48,8 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RequestedTime)
+                    @item.RequestedTime.Start.ToString("dd/MM/yyyy HH:mm") - @item.RequestedTime.End.ToString("HH:mm")
+                   
                 </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -58,3 +59,34 @@
 }
     </tbody>
 </table>
+@*Paging*@
+<div class="row d-flex justify-content-center align-items-center mt-5">
+    <div class="col-md-6 d-flex justify-content-center">
+        <div>
+            <nav>
+                <ul class="pagination justify-content-end">
+                    <li class="page-item @(Model.PageIndex == 1 ? "disabled" : "")">
+                        <a class="page-link text-black" asp-route-pageNumber="1">
+                            <span>First</span>
+                        </a>
+                    </li>
+
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.PageIndex == i ? "active" : "")">
+                            <a class="page-link text-black" asp-route-pageNumber="@i">@i</a>
+
+                        </li>
+                    }
+
+                    <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                        <a class="page-link text-black" asp-route-pageNumber="@(Model.PageIndex + 1)">
+                            <span>Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</div>

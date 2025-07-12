@@ -40,15 +40,27 @@ namespace clinic.application.Services
             await _context.SaveChangesAsync();
             return _mapper.Map<TimeSlotViewModel>(termine);
         }
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
+
 
         public IEnumerable<TimeSlotViewModel> GetAvailableTimeSlots()
         {
             var availableSlots = _timeSlotRepository.GetAll().Where(_ => _.IsBooked == false);
             return _mapper.Map<IEnumerable<TimeSlotViewModel>>(availableSlots);
+        }
+
+        public IQueryable<TimeSlotViewModel> GetAll()
+        {
+            return _timeSlotRepository.GetAll()
+                 .Select(_ => new TimeSlotViewModel
+                 {
+                     Start = _.Start,
+                     End = _.End,
+                     IsBooked = _.IsBooked
+                 }).OrderByDescending(_ => _.IsBooked == false);
+        }
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }

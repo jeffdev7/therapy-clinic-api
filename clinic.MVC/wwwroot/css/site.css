@@ -12309,3 +12309,47 @@ textarea.form-control-lg {
 .modal .btn-close, .toast .btn-close {
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'><path d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/></svg>")
 }
+
+/* #AppointmentController available timeslots */
+
+.time-slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.time-slot-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    user-select: none;
+}
+
+    /*.time-slot-button input[type="radio"] {
+        display: none;
+    }*/
+
+    /*.time-slot-button:hover {
+        background-color: dodgerblue;
+        border-color: #007bff;
+    }*/
+
+    /*.time-slot-button input[type="radio"]:checked + span {
+        background-color: dodgerblue;
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+    .time-slot-button span {
+        display: inline-block;
+    }*/
+   /* .time-slot-button input[type="radio"]:checked ~ * {
+        background-color: dodgerblue;
+        border-color: dodgerblue;
+    }*/

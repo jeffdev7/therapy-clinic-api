@@ -109,17 +109,21 @@ namespace clinic.application.Services
             GC.SuppressFinalize(this);
         }
 
-        public IQueryable<AppointmentRequestViewModel> GetAllAppointments()
+        public IQueryable<AppointmentRequestIndexViewModel> GetAllAppointmentsForIndex()
         {
             return _appointmentRepository.GetAll()
-                 .Select(_ => new AppointmentRequestViewModel
-                 {
-                     ClientName = _.ClientName,
-                     DocumentNumber = _.DocumentNumber,
-                     Email = _.Email,
-                     Phone = _.Phone,
-                     RequestedTime = _mapper.Map<NewAppointmentTimeSlotViewModel>(_.RequestedTime)
-                 });
+                .Select(_ => new AppointmentRequestIndexViewModel
+                {
+                    ClientName = _.ClientName,
+                    DocumentNumber = _.DocumentNumber,
+                    Email = _.Email,
+                    Phone = _.Phone,
+                    RequestedTime = new AppointmentTimeSlotIndexViewModel
+                    {
+                        Start = _.RequestedTime.Start,
+                        End = _.RequestedTime.End
+                    }
+                }).OrderBy(_ => _.RequestedTime.Start);
         }
     }
 }

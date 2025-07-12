@@ -26,13 +26,13 @@ namespace clinic.MVC.Controllers
         // GET: AppointmentRequests
         public async Task<IActionResult> Index(int pageNumber)
         {
-            var appointments = _appointmentRequestServices.GetAllAppointments();
+            var appointments = _appointmentRequestServices.GetAllAppointmentsForIndex();
 
             if (pageNumber < 1)
                 pageNumber = 1;
             int pageSize = 6;
 
-            return View(await Pagination<AppointmentRequestViewModel>.CreateAsync(appointments, pageNumber, pageSize));
+            return View(await Pagination<AppointmentRequestIndexViewModel>.CreateAsync(appointments, pageNumber, pageSize));
         }
 
         // GET: AppointmentRequests/Create
@@ -42,26 +42,31 @@ namespace clinic.MVC.Controllers
             var t = ViewBag.TimeSlots = timeslots.Select(_ => new SelectListItem
             {
                 Value = _.Id.ToString(),
-                Text = $"{_.Start:dd/MM/yyyy HH:mm} - {_.End:dd/MM/yyyy HH:mm}",
+                Text = $"{_.Start:dd/MM/yyyy HH:mm} - {_.End:HH:mm}",
 
             }).ToList();
             return View();
         }
 
-        // POST: AppointmentRequests/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(AppointmentRequestViewModel appointmentRequest)
+        public IActionResult Create(AppointmentRequestViewModel appointmentRequest)//TODO refact
         {
+            var timeslot = _timeSlotServices.GetAvailableTimeSlots()
+                .SingleOrDefault(_ => _.Id == appointmentRequest.RequestedTime.Id);
+
+            appointmentRequest.RequestedTime = new NewAppointmentTimeSlotViewModel
+            {
+                Id = timeslot.Id,
+                Start = timeslot.Start,
+                End = timeslot.End,
+            };
+
             var result = _appointmentRequestServices.Add(appointmentRequest).GetAwaiter().GetResult();
 
             LoadViewBags();
 
-
-
-            return View(appointmentRequest);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: AppointmentRequests/Edit/5
@@ -80,9 +85,6 @@ namespace clinic.MVC.Controllers
             return View(appointmentRequest);
         }
 
-        // POST: AppointmentRequests/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("ClientName,DocumentNumber,Phone,Email,Id,CreatedAt,UpdatedAt")] AppointmentRequest appointmentRequest)
