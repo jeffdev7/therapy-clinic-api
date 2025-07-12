@@ -115,8 +115,6 @@ namespace clinic.application.Services
                 .Select(_ => new AppointmentRequestIndexViewModel
                 {
                     ClientName = _.ClientName,
-                    DocumentNumber = _.DocumentNumber,
-                    Email = _.Email,
                     Phone = _.Phone,
                     RequestedTime = new AppointmentTimeSlotIndexViewModel
                     {

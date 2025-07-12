@@ -7,9 +7,7 @@ namespace clinic.CrossCutting.Dto
         [Key]
         public Guid Id { get; set; }
         public string ClientName { get; set; }
-        public string DocumentNumber { get; set; }
         public string Phone { get; set; }
-        public string Email { get; set; }
         public NewAppointmentTimeSlotViewModel RequestedTime { get; set; }
     }
     public class AppointmentRequestIndexViewModel
@@ -17,9 +15,7 @@ namespace clinic.CrossCutting.Dto
         [Key]
         public Guid Id { get; set; }
         public string ClientName { get; set; }
-        public string DocumentNumber { get; set; }
         public string Phone { get; set; }
-        public string Email { get; set; }
         public AppointmentTimeSlotIndexViewModel RequestedTime { get; set; }
     }
     public class GetAppointmentRequestViewModel
@@ -27,9 +23,7 @@ namespace clinic.CrossCutting.Dto
         [Key]
         public Guid Id { get; set; }
         public string ClientName { get; set; }
-        public string DocumentNumber { get; set; }
         public string Phone { get; set; }
-        public string Email { get; set; }
         public TimeSlotViewModel RequestedTime { get; set; }
     }
 }
