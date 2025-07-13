@@ -1,0 +1,57 @@
+﻿@using clinic.CrossCutting.Dto
+@model AppointmentRequestViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Appointment Request</h4>
+<hr />
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row">
+        <!-- LEFT COLUMN: Form Fields -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ClientName" class="control-label"></label>
+                <input asp-for="ClientName" class="form-control" />
+                <span asp-validation-for="ClientName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Time Slots -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="RequestedTime" class="control-label">Requested Time</label>
+                <div class="d-flex flex-wrap gap-2">
+                    @foreach (var slot in ViewBag.TimeSlots as List<SelectListItem>)
+                    {
+                        <input type="radio" class="btn-check" name="RequestedTime.Id" id="slot-@slot.Value" value="@slot.Value" autocomplete="off" />
+                        <label class="btn btn-outline-primary" for="slot-@slot.Value">@slot.Text</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
