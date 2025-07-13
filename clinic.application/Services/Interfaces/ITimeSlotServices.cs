@@ -9,5 +9,7 @@ namespace clinic.application.Services.Interfaces
         Task<TimeSlotViewModel> Update(TimeSlotViewModel vm);
         IEnumerable<TimeSlotViewModel> GetAvailableTimeSlots();
         IQueryable<TimeSlotViewModel> GetAll();
+        Task<bool> Remove(Guid id);
+        TimeSlotViewModel GetById(Guid id);
     }
 }

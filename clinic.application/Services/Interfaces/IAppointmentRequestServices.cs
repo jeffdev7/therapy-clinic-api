@@ -10,5 +10,6 @@ namespace clinic.application.Services.Interfaces
         Task<AppointmentRequestViewModel> Update(AppointmentRequestViewModel vm);
         Task<ErrorOr<AppointmentRequestViewModel>> Add(AppointmentRequestViewModel vm);
         Task<bool> Remove(Guid id);
+        AppointmentRequestViewModel GetById(Guid id);
     }
 }

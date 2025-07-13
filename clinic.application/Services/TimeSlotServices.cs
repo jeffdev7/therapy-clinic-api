@@ -4,6 +4,7 @@ using clinic.CrossCutting.Dto;
 using clinic.data.DBConfiguration;
 using clinic.domain.Entities;
 using clinic.domain.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace clinic.application.Services
 {
@@ -53,10 +54,28 @@ namespace clinic.application.Services
             return _timeSlotRepository.GetAll()
                  .Select(_ => new TimeSlotViewModel
                  {
+                     Id = _.Id,
                      Start = _.Start,
                      End = _.End,
                      IsBooked = _.IsBooked
                  }).OrderByDescending(_ => _.IsBooked == false);
+        }
+        public async Task<bool> Remove(Guid id)
+        {
+            TimeSlot timeSlot = await _context.TimeSlots
+                .Where(p => p.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (timeSlot == null)
+                return false;
+            _context.TimeSlots.Remove(timeSlot);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        public TimeSlotViewModel GetById(Guid id)
+        {
+            var timeSlot = _timeSlotRepository.GetById(id);
+            return _mapper.Map<TimeSlotViewModel>(timeSlot);
         }
         public void Dispose()
         {

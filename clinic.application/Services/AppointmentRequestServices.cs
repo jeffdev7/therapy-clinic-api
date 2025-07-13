@@ -114,6 +114,7 @@ namespace clinic.application.Services
             return _appointmentRepository.GetAll()
                 .Select(_ => new AppointmentRequestIndexViewModel
                 {
+                    Id = _.Id,
                     ClientName = _.ClientName,
                     Phone = _.Phone,
                     RequestedTime = new AppointmentTimeSlotIndexViewModel
@@ -122,6 +123,13 @@ namespace clinic.application.Services
                         End = _.RequestedTime.End
                     }
                 }).OrderBy(_ => _.RequestedTime.Start);
+        }
+
+        public AppointmentRequestViewModel GetById(Guid id)
+        {
+            var result = _appointmentRepository.GetAppointmentRequestById(id);
+
+            return _mapper.Map<AppointmentRequestViewModel>(result);
         }
     }
 }
