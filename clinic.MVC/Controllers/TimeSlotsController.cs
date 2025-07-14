@@ -34,9 +34,18 @@ namespace clinic.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(TimeSlotViewModel timeSlot)
+        public IActionResult Create(TimeSlotViewModel timeSlot)
         {
-            var test = await _timeSlotServices.AddTimeSlot(timeSlot);
+            var result =  _timeSlotServices.AddTimeSlot(timeSlot);
+
+            if (!result.IsValid) 
+            {
+                foreach (var error in result.Errors) 
+                {
+                    ModelState.AddModelError(error.ErrorCode, error.ErrorMessage);
+                }
+                return View(result);
+            }
             return RedirectToAction(nameof(Index));
         }
 

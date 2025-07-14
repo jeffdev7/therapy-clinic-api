@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using clinic.application.Services.Interfaces;
 using clinic.CrossCutting.Dto;
+using clinic.CrossCutting.Validation;
 using clinic.data.DBConfiguration;
 using clinic.domain.Entities;
 using clinic.domain.Repository.Interfaces;
+using ErrorOr;
+using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 
 namespace clinic.application.Services
@@ -22,24 +25,25 @@ namespace clinic.application.Services
             _context = context;
         }
 
-        public async Task<TimeSlotViewModel> AddTimeSlot(TimeSlotViewModel vm)
+        public ValidationResult AddTimeSlot(TimeSlotViewModel vm)
         {
+            List<Error> validationErrors = new List<Error>();
+
             TimeSlot termine = _mapper.Map<TimeSlot>(vm);
-            _context.TimeSlots.Add(termine);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<TimeSlotViewModel>(termine);
+
+            var result = new AddTimeSlotValidator().Validate(vm);
+
+            if (result.IsValid)
+            {
+                _timeSlotRepository.Add(termine);
+            }
+
+            return result;//_mapper.Map<TimeSlotViewModel>(termine);
         }
 
         public IEnumerable<TimeSlotViewModel> GetTimeSlot()
         {
             return _mapper.Map<IEnumerable<TimeSlotViewModel>>(_timeSlotRepository.GetAll());
-        }
-        public async Task<TimeSlotViewModel> Update(TimeSlotViewModel vm)
-        {
-            TimeSlot termine = _mapper.Map<TimeSlot>(vm);
-            _context.TimeSlots.Update(termine);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<TimeSlotViewModel>(termine);
         }
 
 

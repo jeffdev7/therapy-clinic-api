@@ -104,10 +104,6 @@ namespace clinic.application.Services
             await _context.SaveChangesAsync();
             return _mapper.Map<AppointmentRequestViewModel>(termine);
         }
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
 
         public IQueryable<AppointmentRequestIndexViewModel> GetAllAppointmentsForIndex()
         {
@@ -130,6 +126,10 @@ namespace clinic.application.Services
             var result = _appointmentRepository.GetAppointmentRequestById(id);
 
             return _mapper.Map<AppointmentRequestViewModel>(result);
+        }
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }
