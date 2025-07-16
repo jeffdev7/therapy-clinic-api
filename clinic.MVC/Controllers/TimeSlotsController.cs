@@ -44,7 +44,7 @@ namespace clinic.MVC.Controllers
                 {
                     ModelState.AddModelError(error.ErrorCode, error.ErrorMessage);
                 }
-                return View(result);
+                return View();
             }
             return RedirectToAction(nameof(Index));
         }

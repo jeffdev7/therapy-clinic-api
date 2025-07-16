@@ -27,18 +27,14 @@ namespace clinic.application.Services
 
         public ValidationResult AddTimeSlot(TimeSlotViewModel vm)
         {
-            List<Error> validationErrors = new List<Error>();
-
             TimeSlot termine = _mapper.Map<TimeSlot>(vm);
 
             var result = new AddTimeSlotValidator().Validate(vm);
 
             if (result.IsValid)
-            {
                 _timeSlotRepository.Add(termine);
-            }
 
-            return result;//_mapper.Map<TimeSlotViewModel>(termine);
+            return result;
         }
 
         public IEnumerable<TimeSlotViewModel> GetTimeSlot()
