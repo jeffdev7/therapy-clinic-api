@@ -42,7 +42,6 @@ namespace clinic.application.Services
             return _mapper.Map<IEnumerable<TimeSlotViewModel>>(_timeSlotRepository.GetAll());
         }
 
-
         public IEnumerable<TimeSlotViewModel> GetAvailableTimeSlots()
         {
             var availableSlots = _timeSlotRepository.GetAll().Where(_ => _.IsBooked == false);
