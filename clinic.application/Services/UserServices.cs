@@ -5,7 +5,6 @@ using clinic.domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using System.Security.Claims;
 
 namespace clinic.application.Services
