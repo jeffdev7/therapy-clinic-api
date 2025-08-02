@@ -1,6 +1,8 @@
 ﻿using clinic.CrossCutting.Dto;
+using clinic.domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using System.Security.Principal;
 
 namespace clinic.application.Services.Interfaces
 {
@@ -13,5 +15,6 @@ namespace clinic.application.Services.Interfaces
         string? GetUserRole();
         Task<List<string?>> GetAllRoles();
         Task<bool> GetCurrentUser(ClaimsPrincipal claimsIdentity);
+        public IEnumerable<User> GetAllUsernames();
     }
 }

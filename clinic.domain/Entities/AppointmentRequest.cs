@@ -5,6 +5,7 @@
         public string? ClientName { get; set; }
         public string? Phone { get; set; }
         public TimeSlot RequestedTime { get; set; }
+        public string UserId { get; set; }
         protected AppointmentRequest()
         {
         }

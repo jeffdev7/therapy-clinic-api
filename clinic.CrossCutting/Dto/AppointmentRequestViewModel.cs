@@ -8,6 +8,7 @@ namespace clinic.CrossCutting.Dto
         public Guid Id { get; set; }
         public string ClientName { get; set; }
         public string Phone { get; set; }
+        public string UserId { get; set; }
         public NewAppointmentTimeSlotViewModel RequestedTime { get; set; }
     }
     public class AppointmentRequestIndexViewModel

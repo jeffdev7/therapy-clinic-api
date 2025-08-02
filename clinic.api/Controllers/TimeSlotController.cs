@@ -20,7 +20,7 @@ namespace clinic.api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var termine = await _appointmentServices.AddTimeSlot(vm);
+            var termine = _appointmentServices.AddTimeSlot(vm);
             return Ok(termine);
         }
 

@@ -27,16 +27,29 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label asp-for="UserId" class="control-label">User</label>
+            <select id="userSelect" asp-for="UserId" class="form-control">
+                <option value="0">Selecione</option>
+                @foreach (var item in ViewBag.Users)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+
+            </select>
+        </div>
+        <span asp-validation-for=UserId class="text-danger"></span>
+
         <!-- RIGHT COLUMN: Time Slots -->
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="RequestedTime" class="control-label">Requested Time</label>
-                <div class="d-flex flex-wrap gap-2">
-                    @foreach (var slot in ViewBag.TimeSlots as List<SelectListItem>)
+                <div id="timeSlotContainer" class="d-flex flex-wrap gap-2">
+                   @*  @foreach (var slot in ViewBag.TimeSlots as List<SelectListItem>)
                     {
                         <input type="radio" class="btn-check" name="RequestedTime.Id" id="slot-@slot.Value" value="@slot.Value" autocomplete="off" />
                         <label class="btn btn-outline-primary" for="slot-@slot.Value">@slot.Text</label>
-                    }
+                    } *@
                 </div>
             </div>
         </div>
@@ -55,3 +68,40 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const userSelect = document.getElementById("userSelect");
+        const slotContainer = document.getElementById("timeSlotContainer");
+
+        userSelect.addEventListener("change", function () {
+            const userId = this.value;
+            if (userId === "0") {
+                slotContainer.innerHTML = "";
+                return;
+            }
+
+            fetch(`/AppointmentRequests/GetSelectedUser?userId=${userId}`)
+                .then(response => {
+                    if (!response.ok) throw new Error("Failed to load time slots.");
+                    return response.json();
+                })
+                .then(data => {
+                    slotContainer.innerHTML = "";
+
+                    data.forEach(slot => {
+                        const inputId = `slot-${slot.value}`;
+                        slotContainer.innerHTML += `
+                            <input type="radio" class="btn-check" name="RequestedTime.Id" id="${inputId}" value="${slot.value}" autocomplete="off" />
+                            <label class="btn btn-outline-primary" for="${inputId}">${slot.text}</label>
+                        `;
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    slotContainer.innerHTML = "<span class='text-danger'>Erro ao carregar horários.</span>";
+                });
+        });
+    });
+</script>

@@ -12,5 +12,6 @@ namespace clinic.application.Services.Interfaces
         IQueryable<TimeSlotViewModel> GetAll();
         Task<bool> Remove(Guid id);
         TimeSlotViewModel GetById(Guid id);
+        IQueryable<TimeSlotViewModel> GetAllByUserId(string userId);
     }
 }

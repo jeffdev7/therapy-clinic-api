@@ -2,10 +2,12 @@
 using clinic.CrossCutting.Constant;
 using clinic.CrossCutting.Dto;
 using clinic.domain.Entities;
+using clinic.domain.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Security.Principal;
 
 namespace clinic.application.Services
 {
@@ -15,14 +17,17 @@ namespace clinic.application.Services
         private readonly SignInManager<User> _signInManager;
         private readonly HttpContextAccessor _httpContext;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUserRepository _userRepository;
 
         public UserServices(UserManager<User> userManager, SignInManager<User> signInManager, 
-            HttpContextAccessor httpContext, RoleManager<IdentityRole> roleManager)
+            HttpContextAccessor httpContext, RoleManager<IdentityRole> roleManager, 
+            IUserRepository userRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _httpContext = httpContext;
             _roleManager = roleManager;
+            _userRepository = userRepository;
         }
 
         public async Task<List<string?>> GetAllRoles() =>
@@ -71,5 +76,11 @@ namespace clinic.application.Services
             return result;
         }
         public void Dispose() => GC.SuppressFinalize(this);
+
+        public IEnumerable<User> GetAllUsernames()
+        {
+            var user = _userRepository.GetAllUsers().ToList();
+            return user;
+        }
     }
 }

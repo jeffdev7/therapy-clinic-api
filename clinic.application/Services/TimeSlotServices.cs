@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using clinic.application.Services.Interfaces;
+using clinic.CrossCutting.Constant;
 using clinic.CrossCutting.Dto;
 using clinic.CrossCutting.Validation;
 using clinic.data.DBConfiguration;
@@ -15,20 +16,22 @@ namespace clinic.application.Services
     {
         private readonly IMapper _mapper;
         private readonly ITimeSlotRepository _timeSlotRepository;
+        private readonly IUserServices _userServices;
         private readonly ApplicationContext _context;
 
         public TimeSlotServices(IMapper mapper, ITimeSlotRepository timeSlotRepository,
-            ApplicationContext context)
+            IUserServices userServices,ApplicationContext context)
         {
             _mapper = mapper;
             _timeSlotRepository = timeSlotRepository;
+            _userServices = userServices;
             _context = context;
         }
 
         public ValidationResult AddTimeSlot(TimeSlotViewModel vm)
         {
             TimeSlot termine = _mapper.Map<TimeSlot>(vm);
-
+            termine.UserId = _userServices.GetUserId()!;
             var result = new AddTimeSlotValidator().Validate(vm);
 
             if (result.IsValid)
@@ -50,7 +53,22 @@ namespace clinic.application.Services
 
         public IQueryable<TimeSlotViewModel> GetAll()
         {
+            var userId = _userServices.GetUserId();
+
             return _timeSlotRepository.GetAll()
+                .Where(_ => _.UserId == userId)
+                 .Select(_ => new TimeSlotViewModel
+                 {
+                     Id = _.Id,
+                     Start = _.Start,
+                     End = _.End,
+                     IsBooked = _.IsBooked
+                 }).OrderByDescending(_ => _.IsBooked == false);
+        }
+        public IQueryable<TimeSlotViewModel> GetAllByUserId(string userId)
+        {
+            return _timeSlotRepository.GetAll()
+                .Where(_ => _.UserId == userId)
                  .Select(_ => new TimeSlotViewModel
                  {
                      Id = _.Id,
@@ -61,7 +79,8 @@ namespace clinic.application.Services
         }
         public async Task<bool> Remove(Guid id)
         {
-            TimeSlot timeSlot = await _context.TimeSlots
+            TimeSlot timeSlot = await _context
+                .TimeSlots
                 .Where(p => p.Id == id)
                 .FirstOrDefaultAsync();
 

@@ -15,16 +15,18 @@ namespace clinic.application.Services
         private readonly IMapper _mapper;
         private readonly IAppointmentRequestRepository _appointmentRepository;
         private readonly ITimeSlotRepository _timeSlotRepository;
+        private readonly IUserServices _userService;
         private readonly ApplicationContext _context;
 
         public AppointmentRequestServices(IMapper mapper, IAppointmentRequestRepository appointmentRepository,
-            ITimeSlotRepository timeSlotRepository,
+            ITimeSlotRepository timeSlotRepository, IUserServices userService,
             ApplicationContext context)
         {
             _mapper = mapper;
             _appointmentRepository = appointmentRepository;
-            _context = context;
+            _userService = userService;
             _timeSlotRepository = timeSlotRepository;
+            _context = context;
         }
 
         public async Task<ErrorOr<AppointmentRequestViewModel>> Add(AppointmentRequestViewModel vm)
@@ -107,7 +109,9 @@ namespace clinic.application.Services
 
         public IQueryable<AppointmentRequestIndexViewModel> GetAllAppointmentsForIndex()
         {
+            var userId = _userService.GetUserId(); 
             return _appointmentRepository.GetAll()
+                .Where(_ => _.UserId == userId)
                 .Select(_ => new AppointmentRequestIndexViewModel
                 {
                     Id = _.Id,
