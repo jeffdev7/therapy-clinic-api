@@ -1,6 +1,8 @@
 using clinic.application.AutoMapper;
 using clinic.data.DBConfiguration;
+using clinic.domain.Entities;
 using clinic.IoC;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,15 @@ options.UseSqlServer(connection));
 
 builder.Services.AddAutoMapper(typeof(DomainViewModelMapping));
 
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
+    options.Password.RequiredUniqueChars = 0;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 8;
+    options.Password.RequireNonAlphanumeric = false;
+})
+    .AddEntityFrameworkStores<ApplicationContext>()
+    .AddDefaultTokenProviders();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -34,10 +45,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}");
+    pattern: "{controller=TimeSlots}/{action=Create}/{id?}");
 
 app.Run();
