@@ -1,8 +1,6 @@
-﻿using clinic.application.Services;
-using clinic.application.Services.Interfaces;
+﻿using clinic.application.Services.Interfaces;
 using clinic.CrossCutting.Dto;
 using clinic.domain;
-using clinic.domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,7 +15,7 @@ namespace clinic.MVC.Controllers
         private readonly IUserServices _userService;
 
         public AppointmentRequestsController(IAppointmentRequestServices appointmentRequestServices
-            ,ITimeSlotServices timeSlotServices,
+            , ITimeSlotServices timeSlotServices,
              IUserServices userService)
         {
             _appointmentRequestServices = appointmentRequestServices;

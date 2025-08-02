@@ -2,7 +2,6 @@
 using clinic.domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using System.Security.Principal;
 
 namespace clinic.application.Services.Interfaces
 {

@@ -6,8 +6,11 @@ namespace clinic.CrossCutting.Validation
 {
     public class AddTimeSlotValidator : AbstractValidator<TimeSlotViewModel>
     {
-        public AddTimeSlotValidator()
+        private readonly ITimeSlotRepository _timeSlotRepository;
+        public AddTimeSlotValidator(ITimeSlotRepository timeSlotRepository)
         {
+            _timeSlotRepository = timeSlotRepository;
+
             RuleFor(_ => _.Start)
                 .Must(IsValidDate)
                 .WithMessage("It's not a valid date.");
@@ -16,9 +19,13 @@ namespace clinic.CrossCutting.Validation
                 .Must(IsValidDate)
                 .WithMessage("It's not a valid date.");
 
-            RuleFor(dt => dt)  
+            RuleFor(dt => dt)
                 .Must(dt => dt.End > dt.Start && (dt.End - dt.Start).TotalMinutes >= 30)
                 .WithMessage("It's not a valid time.");
+
+            RuleFor(dt => dt)
+                .Must(dt => DoesTimeAlreadyExist(dt.Start, dt.End))
+                .WithMessage("There is already a timeslot with this time.");
         }
 
         private static bool IsValidDate(DateTime date)
@@ -26,6 +33,15 @@ namespace clinic.CrossCutting.Validation
             if (date.Date >= DateTime.Today)
                 return true;
             return false;
+        }
+        private bool DoesTimeAlreadyExist(DateTime startTime, DateTime endTime)
+        {
+            var dates = _timeSlotRepository.GetStartAndEndTime(startTime, endTime);
+
+            if (dates.T1.Any() && dates.T2.Any() || dates.T1.Any())
+                return false;
+            return true;
+
         }
     }
 }

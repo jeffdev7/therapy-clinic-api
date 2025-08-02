@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using System.Security.Principal;
 
 namespace clinic.application.Services
 {
@@ -19,8 +18,8 @@ namespace clinic.application.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserRepository _userRepository;
 
-        public UserServices(UserManager<User> userManager, SignInManager<User> signInManager, 
-            HttpContextAccessor httpContext, RoleManager<IdentityRole> roleManager, 
+        public UserServices(UserManager<User> userManager, SignInManager<User> signInManager,
+            HttpContextAccessor httpContext, RoleManager<IdentityRole> roleManager,
             IUserRepository userRepository)
         {
             _userManager = userManager;
@@ -55,7 +54,7 @@ namespace clinic.application.Services
         public async Task<SignInResult> LogIn(LoginViewModel login) =>
             await _signInManager.PasswordSignInAsync(login.Username, login.Password, login.RememberMe, false);
 
-        public async Task LogOut() => 
+        public async Task LogOut() =>
             await _signInManager.SignOutAsync();
 
         public async Task<IdentityResult> RegisterUser(RegisterViewModel register)

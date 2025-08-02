@@ -1,5 +1,4 @@
 ﻿using clinic.CrossCutting.Dto;
-using ErrorOr;
 using FluentValidation.Results;
 
 namespace clinic.application.Services.Interfaces

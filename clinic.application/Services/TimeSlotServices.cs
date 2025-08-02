@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using clinic.application.Services.Interfaces;
-using clinic.CrossCutting.Constant;
 using clinic.CrossCutting.Dto;
 using clinic.CrossCutting.Validation;
 using clinic.data.DBConfiguration;
 using clinic.domain.Entities;
 using clinic.domain.Repository.Interfaces;
-using ErrorOr;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +18,7 @@ namespace clinic.application.Services
         private readonly ApplicationContext _context;
 
         public TimeSlotServices(IMapper mapper, ITimeSlotRepository timeSlotRepository,
-            IUserServices userServices,ApplicationContext context)
+            IUserServices userServices, ApplicationContext context)
         {
             _mapper = mapper;
             _timeSlotRepository = timeSlotRepository;
@@ -32,7 +30,7 @@ namespace clinic.application.Services
         {
             TimeSlot termine = _mapper.Map<TimeSlot>(vm);
             termine.UserId = _userServices.GetUserId()!;
-            var result = new AddTimeSlotValidator().Validate(vm);
+            var result = new AddTimeSlotValidator(_timeSlotRepository).Validate(vm);
 
             if (result.IsValid)
                 _timeSlotRepository.Add(termine);

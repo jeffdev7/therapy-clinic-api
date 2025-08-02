@@ -1,7 +1,6 @@
 ﻿using clinic.application.Services.Interfaces;
 using clinic.CrossCutting.Dto;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 

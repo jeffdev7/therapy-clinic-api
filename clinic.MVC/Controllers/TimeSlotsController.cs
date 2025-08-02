@@ -43,11 +43,11 @@ namespace clinic.MVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(TimeSlotViewModel timeSlot)
         {
-            var result =  _timeSlotServices.AddTimeSlot(timeSlot);
+            var result = _timeSlotServices.AddTimeSlot(timeSlot);
 
-            if (!result.IsValid) 
+            if (!result.IsValid)
             {
-                foreach (var error in result.Errors) 
+                foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(error.ErrorCode, error.ErrorMessage);
                 }

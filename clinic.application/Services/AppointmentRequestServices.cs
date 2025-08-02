@@ -109,7 +109,7 @@ namespace clinic.application.Services
 
         public IQueryable<AppointmentRequestIndexViewModel> GetAllAppointmentsForIndex()
         {
-            var userId = _userService.GetUserId(); 
+            var userId = _userService.GetUserId();
             return _appointmentRepository.GetAll()
                 .Where(_ => _.UserId == userId)
                 .Select(_ => new AppointmentRequestIndexViewModel
