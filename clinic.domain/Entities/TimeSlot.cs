@@ -5,6 +5,7 @@
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public bool IsBooked { get; set; } = false;
+        public string UserId { get; set; }
         protected TimeSlot()
         {
         }

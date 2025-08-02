@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using clinic.application.Services.Interfaces;
 using clinic.CrossCutting.Dto;
+using clinic.CrossCutting.Validation;
 using clinic.data.DBConfiguration;
 using clinic.domain.Entities;
 using clinic.domain.Repository.Interfaces;
+using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 
 namespace clinic.application.Services
@@ -12,36 +14,34 @@ namespace clinic.application.Services
     {
         private readonly IMapper _mapper;
         private readonly ITimeSlotRepository _timeSlotRepository;
+        private readonly IUserServices _userServices;
         private readonly ApplicationContext _context;
 
         public TimeSlotServices(IMapper mapper, ITimeSlotRepository timeSlotRepository,
-            ApplicationContext context)
+            IUserServices userServices, ApplicationContext context)
         {
             _mapper = mapper;
             _timeSlotRepository = timeSlotRepository;
+            _userServices = userServices;
             _context = context;
         }
 
-        public async Task<TimeSlotViewModel> AddTimeSlot(TimeSlotViewModel vm)
+        public ValidationResult AddTimeSlot(TimeSlotViewModel vm)
         {
             TimeSlot termine = _mapper.Map<TimeSlot>(vm);
-            _context.TimeSlots.Add(termine);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<TimeSlotViewModel>(termine);
+            termine.UserId = _userServices.GetUserId()!;
+            var result = new AddTimeSlotValidator(_timeSlotRepository, termine.UserId).Validate(vm);
+
+            if (result.IsValid)
+                _timeSlotRepository.Add(termine);
+
+            return result;
         }
 
         public IEnumerable<TimeSlotViewModel> GetTimeSlot()
         {
             return _mapper.Map<IEnumerable<TimeSlotViewModel>>(_timeSlotRepository.GetAll());
         }
-        public async Task<TimeSlotViewModel> Update(TimeSlotViewModel vm)
-        {
-            TimeSlot termine = _mapper.Map<TimeSlot>(vm);
-            _context.TimeSlots.Update(termine);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<TimeSlotViewModel>(termine);
-        }
-
 
         public IEnumerable<TimeSlotViewModel> GetAvailableTimeSlots()
         {
@@ -51,7 +51,22 @@ namespace clinic.application.Services
 
         public IQueryable<TimeSlotViewModel> GetAll()
         {
+            var userId = _userServices.GetUserId();
+
             return _timeSlotRepository.GetAll()
+                .Where(_ => _.UserId == userId)
+                 .Select(_ => new TimeSlotViewModel
+                 {
+                     Id = _.Id,
+                     Start = _.Start,
+                     End = _.End,
+                     IsBooked = _.IsBooked
+                 }).OrderByDescending(_ => _.IsBooked == false);
+        }
+        public IQueryable<TimeSlotViewModel> GetAllByUserId(string userId)
+        {
+            return _timeSlotRepository.GetAll()
+                .Where(_ => _.UserId == userId)
                  .Select(_ => new TimeSlotViewModel
                  {
                      Id = _.Id,
@@ -62,7 +77,8 @@ namespace clinic.application.Services
         }
         public async Task<bool> Remove(Guid id)
         {
-            TimeSlot timeSlot = await _context.TimeSlots
+            TimeSlot timeSlot = await _context
+                .TimeSlots
                 .Where(p => p.Id == id)
                 .FirstOrDefaultAsync();
 

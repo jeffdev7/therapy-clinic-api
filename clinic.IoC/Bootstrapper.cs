@@ -3,6 +3,7 @@ using clinic.application.Services.Interfaces;
 using clinic.data.DBConfiguration;
 using clinic.data.Repositories;
 using clinic.domain.Repository.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace clinic.IoC
@@ -14,16 +15,16 @@ namespace clinic.IoC
             //repo
             services.AddScoped<IAppointmentRequestRepository, AppointmentRequestRepository>();
             services.AddScoped<ITimeSlotRepository, TimeSlotRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             //service
             services.AddScoped<IAppointmentRequestServices, AppointmentRequestServices>();
             services.AddScoped<IScheduleServices, ScheduleServices>();
             services.AddScoped<ITimeSlotServices, TimeSlotServices>();
+            services.AddScoped<IUserServices, UserServices>();
 
             services.AddDbContext<ApplicationContext>();
-            //services.AddScoped<HttpContextAccessor>();
-
+            services.AddScoped<HttpContextAccessor>();
         }
-
     }
 }
