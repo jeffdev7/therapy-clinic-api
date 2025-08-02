@@ -15,5 +15,6 @@ namespace clinic.application.Services.Interfaces
         Task<List<string?>> GetAllRoles();
         Task<bool> GetCurrentUser(ClaimsPrincipal claimsIdentity);
         public IEnumerable<User> GetAllUsernames();
+        IdentityRole<string> GetRoleByUserId(string userId);
     }
 }

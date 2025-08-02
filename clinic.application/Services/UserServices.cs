@@ -81,5 +81,12 @@ namespace clinic.application.Services
             var user = _userRepository.GetAllUsers().ToList();
             return user;
         }
+        public IdentityRole<string> GetRoleByUserId(string userId)
+        {
+            var user = _userRepository.GetUserRoleById(userId);
+            if (user.Name == Constant.Role)
+                return null;
+            return user;
+        }
     }
 }

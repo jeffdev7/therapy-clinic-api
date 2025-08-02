@@ -96,6 +96,10 @@ namespace clinic.MVC.Controllers
         [HttpGet]
         public IActionResult GetSelectedUser(string userId)
         {
+            var test = _userService.GetRoleByUserId(userId);
+
+            if (test is null)
+                return Json(new List<SelectListItem>());
             var slots = _timeSlotServices.GetAllByUserId(userId);
 
             var selectList = slots.Select(_ => new SelectListItem

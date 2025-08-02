@@ -65,6 +65,8 @@ namespace clinic.application.Services
         }
         public IQueryable<TimeSlotViewModel> GetAllByUserId(string userId)
         {
+            var userRole = _userServices.GetUserRole();
+
             return _timeSlotRepository.GetAll()
                 .Where(_ => _.UserId == userId)
                  .Select(_ => new TimeSlotViewModel
