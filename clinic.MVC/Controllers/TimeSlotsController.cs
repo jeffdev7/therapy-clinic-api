@@ -22,9 +22,6 @@ namespace clinic.MVC.Controllers
         public async Task<IActionResult> Index(int pageNumber)
         {
             var timeSlots = _timeSlotServices.GetAll();
-            bool isClient = await _userServices.GetCurrentUser(User);//guess wont need it
-
-            ViewBag.IsClient = isClient;
 
             if (pageNumber < 1)
                 pageNumber = 1;
@@ -33,12 +30,13 @@ namespace clinic.MVC.Controllers
             return View(await Pagination<TimeSlotViewModel>.CreateAsync(timeSlots, pageNumber, pageSize));
         }
 
-        // GET: TimeSlots/Create
+        [Authorize(Roles = "Client")]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Client")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(TimeSlotViewModel timeSlot)
@@ -56,7 +54,7 @@ namespace clinic.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: TimeSlots/Delete/5
+        [Authorize(Roles = "Client")]
         public IActionResult Delete(Guid id)
         {
             var timeSlot = _timeSlotServices.GetById(id);
@@ -69,7 +67,7 @@ namespace clinic.MVC.Controllers
             return View(timeSlot);
         }
 
-        // POST: TimeSlots/Delete/5
+        [Authorize(Roles = "Client")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)

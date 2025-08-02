@@ -74,7 +74,6 @@ namespace clinic.application.Services
 
             return result;
         }
-        public void Dispose() => GC.SuppressFinalize(this);
 
         public IEnumerable<User> GetAllUsernames()
         {
@@ -88,5 +87,6 @@ namespace clinic.application.Services
                 return null;
             return user;
         }
+        public void Dispose() => GC.SuppressFinalize(this);
     }
 }

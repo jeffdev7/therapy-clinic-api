@@ -27,6 +27,7 @@ namespace clinic.MVC.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _userServices.LogIn(login);
+
                 if (result.Succeeded)
                     return RedirectToAction("Index", "Home");
 

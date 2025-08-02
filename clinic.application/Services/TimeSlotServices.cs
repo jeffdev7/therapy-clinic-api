@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using clinic.application.Services.Interfaces;
+using clinic.CrossCutting.Constant;
 using clinic.CrossCutting.Dto;
 using clinic.CrossCutting.Validation;
 using clinic.data.DBConfiguration;
@@ -52,9 +53,23 @@ namespace clinic.application.Services
         public IQueryable<TimeSlotViewModel> GetAll()
         {
             var userId = _userServices.GetUserId();
+            var userRole = _userServices.GetUserRole();
 
+            if (userRole == Constant.Role)
+                return GetAllTimeSlotsAsAdmin();
             return _timeSlotRepository.GetAll()
                 .Where(_ => _.UserId == userId)
+                 .Select(_ => new TimeSlotViewModel
+                 {
+                     Id = _.Id,
+                     Start = _.Start,
+                     End = _.End,
+                     IsBooked = _.IsBooked
+                 }).OrderByDescending(_ => _.IsBooked == false);
+        }
+        private IQueryable<TimeSlotViewModel> GetAllTimeSlotsAsAdmin()
+        {
+            return _timeSlotRepository.GetAll()
                  .Select(_ => new TimeSlotViewModel
                  {
                      Id = _.Id,

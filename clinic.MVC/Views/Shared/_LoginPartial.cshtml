@@ -1,11 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using clinic.CrossCutting.Constant
 @using clinic.domain.Entities
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User) && ViewBag.IsAdmin == true)
+    @if (SignInManager.IsSignedIn(User) && User.Identities.ToArray()[0].Claims.ToArray()[4].Value == Constant.Role)
     {
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">

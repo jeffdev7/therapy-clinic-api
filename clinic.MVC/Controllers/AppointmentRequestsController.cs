@@ -33,6 +33,7 @@ namespace clinic.MVC.Controllers
 
             return View(await Pagination<AppointmentRequestIndexViewModel>.CreateAsync(appointments, pageNumber, pageSize));
         }
+
         [AllowAnonymous]
         public IActionResult Create()
         {
@@ -46,6 +47,7 @@ namespace clinic.MVC.Controllers
             }).ToList();
             return View();
         }
+
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -68,6 +70,7 @@ namespace clinic.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Client")]
         public IActionResult Delete(Guid id)
         {
             var appointment = _appointmentRequestServices.GetById(id);
@@ -79,17 +82,13 @@ namespace clinic.MVC.Controllers
             return View(appointment);
         }
 
+        [Authorize(Roles = "Client")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             await _appointmentRequestServices.Remove(id);
             return RedirectToAction(nameof(Index));
-        }
-        private void LoadViewBags()
-        {
-            ViewBag.TimeSlots = _appointmentRequestServices.GetAll().ToList();
-            ViewBag.Users = _userService.GetAllUsernames();
         }
 
         [AllowAnonymous]
@@ -109,6 +108,11 @@ namespace clinic.MVC.Controllers
             }).ToList();
 
             return Json(selectList);
+        }
+        private void LoadViewBags()
+        {
+            ViewBag.TimeSlots = _appointmentRequestServices.GetAll().ToList();
+            ViewBag.Users = _userService.GetAllUsernames();
         }
     }
 }

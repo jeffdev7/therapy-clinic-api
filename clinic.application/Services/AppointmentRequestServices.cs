@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using clinic.application.Services.Interfaces;
+using clinic.CrossCutting.Constant;
 using clinic.CrossCutting.Dto;
 using clinic.CrossCutting.Validation;
 using clinic.data.DBConfiguration;
@@ -7,6 +8,7 @@ using clinic.domain.Entities;
 using clinic.domain.Repository.Interfaces;
 using ErrorOr;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace clinic.application.Services
 {
@@ -110,8 +112,28 @@ namespace clinic.application.Services
         public IQueryable<AppointmentRequestIndexViewModel> GetAllAppointmentsForIndex()
         {
             var userId = _userService.GetUserId();
+            var userRole = _userService.GetUserRole();
+
+            if (userRole == Constant.Role)
+                return GetAllAppointmentsAsAdmin();
+
             return _appointmentRepository.GetAll()
                 .Where(_ => _.UserId == userId)
+                .Select(_ => new AppointmentRequestIndexViewModel
+                {
+                    Id = _.Id,
+                    ClientName = _.ClientName,
+                    Phone = _.Phone,
+                    RequestedTime = new AppointmentTimeSlotIndexViewModel
+                    {
+                        Start = _.RequestedTime.Start,
+                        End = _.RequestedTime.End
+                    }
+                }).OrderBy(_ => _.RequestedTime.Start);
+        }
+        private IQueryable<AppointmentRequestIndexViewModel> GetAllAppointmentsAsAdmin()
+        {
+            return _appointmentRepository.GetAll()
                 .Select(_ => new AppointmentRequestIndexViewModel
                 {
                     Id = _.Id,
