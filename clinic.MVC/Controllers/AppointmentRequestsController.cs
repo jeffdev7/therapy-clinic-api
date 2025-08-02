@@ -10,13 +10,13 @@ namespace clinic.MVC.Controllers
     [Authorize]
     public class AppointmentRequestsController : Controller
     {
-        private readonly IAppointmentRequestServices _appointmentRequestServices;
-        private readonly ITimeSlotServices _timeSlotServices;
-        private readonly IUserServices _userService;
+        private readonly IAppointmentRequestService _appointmentRequestServices;
+        private readonly ITimeSlotService _timeSlotServices;
+        private readonly IUserService _userService;
 
-        public AppointmentRequestsController(IAppointmentRequestServices appointmentRequestServices
-            , ITimeSlotServices timeSlotServices,
-             IUserServices userService)
+        public AppointmentRequestsController(IAppointmentRequestService appointmentRequestServices
+            , ITimeSlotService timeSlotServices,
+             IUserService userService)
         {
             _appointmentRequestServices = appointmentRequestServices;
             _timeSlotServices = timeSlotServices;

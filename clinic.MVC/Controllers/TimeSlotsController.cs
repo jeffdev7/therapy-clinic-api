@@ -9,10 +9,10 @@ namespace clinic.MVC.Controllers
     [Authorize]
     public class TimeSlotsController : Controller
     {
-        private readonly ITimeSlotServices _timeSlotServices;
-        private readonly IUserServices _userServices;
+        private readonly ITimeSlotService _timeSlotServices;
+        private readonly IUserService _userServices;
 
-        public TimeSlotsController(ITimeSlotServices timeSlotServices, IUserServices userServices)
+        public TimeSlotsController(ITimeSlotService timeSlotServices, IUserService userServices)
         {
             _timeSlotServices = timeSlotServices;
             _userServices = userServices;

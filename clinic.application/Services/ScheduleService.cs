@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace clinic.application.Services
 {
-    public sealed class ScheduleServices : IScheduleServices
+    public sealed class ScheduleService : IScheduleService
     {
         private readonly IMapper _mapper;
         private readonly IAppointmentRequestRepository _appointmentRepository;
@@ -15,7 +15,7 @@ namespace clinic.application.Services
 
         private readonly ApplicationContext _context;
 
-        public ScheduleServices(IMapper mapper,
+        public ScheduleService(IMapper mapper,
             IAppointmentRequestRepository appointmentRepository, ITimeSlotRepository timeSlotRepository,
             ApplicationContext context)
         {

@@ -12,16 +12,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace clinic.application.Services
 {
-    public sealed class AppointmentRequestServices : IAppointmentRequestServices
+    public sealed class AppointmentRequestService : IAppointmentRequestService
     {
         private readonly IMapper _mapper;
         private readonly IAppointmentRequestRepository _appointmentRepository;
         private readonly ITimeSlotRepository _timeSlotRepository;
-        private readonly IUserServices _userService;
+        private readonly IUserService _userService;
         private readonly ApplicationContext _context;
 
-        public AppointmentRequestServices(IMapper mapper, IAppointmentRequestRepository appointmentRepository,
-            ITimeSlotRepository timeSlotRepository, IUserServices userService,
+        public AppointmentRequestService(IMapper mapper, IAppointmentRequestRepository appointmentRepository,
+            ITimeSlotRepository timeSlotRepository, IUserService userService,
             ApplicationContext context)
         {
             _mapper = mapper;

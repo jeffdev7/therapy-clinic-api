@@ -11,15 +11,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace clinic.application.Services
 {
-    public sealed class TimeSlotServices : ITimeSlotServices
+    public sealed class TimeSlotService : ITimeSlotService
     {
         private readonly IMapper _mapper;
         private readonly ITimeSlotRepository _timeSlotRepository;
-        private readonly IUserServices _userServices;
+        private readonly IUserService _userServices;
         private readonly ApplicationContext _context;
 
-        public TimeSlotServices(IMapper mapper, ITimeSlotRepository timeSlotRepository,
-            IUserServices userServices, ApplicationContext context)
+        public TimeSlotService(IMapper mapper, ITimeSlotRepository timeSlotRepository,
+            IUserService userServices, ApplicationContext context)
         {
             _mapper = mapper;
             _timeSlotRepository = timeSlotRepository;

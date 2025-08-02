@@ -6,7 +6,7 @@
 @inject UserManager<User> UserManager
 
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User) && User.Identities.ToArray()[0].Claims.ToArray()[4].Value == Constant.Role)
+    @if (SignInManager.IsSignedIn(User) && User.Identities.ToArray()[0].Claims.ToArray()[4].Value == Constant.Role)//TODO temporary
     {
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">

@@ -2,7 +2,7 @@
 
 namespace clinic.application.Services.Interfaces
 {
-    public interface IScheduleServices : IDisposable
+    public interface IScheduleService : IDisposable
     {
         ScheduleViewModel GetAll();
     }

@@ -18,10 +18,10 @@ namespace clinic.IoC
             services.AddScoped<IUserRepository, UserRepository>();
 
             //service
-            services.AddScoped<IAppointmentRequestServices, AppointmentRequestServices>();
-            services.AddScoped<IScheduleServices, ScheduleServices>();
-            services.AddScoped<ITimeSlotServices, TimeSlotServices>();
-            services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<IAppointmentRequestService, AppointmentRequestService>();
+            services.AddScoped<IScheduleService, ScheduleService>();
+            services.AddScoped<ITimeSlotService, TimeSlotService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddDbContext<ApplicationContext>();
             services.AddScoped<HttpContextAccessor>();

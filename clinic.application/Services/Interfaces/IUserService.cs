@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace clinic.application.Services.Interfaces
 {
-    public interface IUserServices : IDisposable
+    public interface IUserService : IDisposable
     {
         Task<IdentityResult> RegisterUser(RegisterViewModel register);
         Task<SignInResult> LogIn(LoginViewModel login);

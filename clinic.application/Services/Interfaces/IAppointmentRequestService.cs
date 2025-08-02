@@ -3,7 +3,7 @@ using ErrorOr;
 
 namespace clinic.application.Services.Interfaces
 {
-    public interface IAppointmentRequestServices : IDisposable
+    public interface IAppointmentRequestService : IDisposable
     {
         IEnumerable<GetAppointmentRequestViewModel> GetAll();
         IQueryable<AppointmentRequestIndexViewModel> GetAllAppointmentsForIndex();

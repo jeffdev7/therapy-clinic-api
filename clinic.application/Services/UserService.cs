@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace clinic.application.Services
 {
-    public class UserServices : IUserServices
+    public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -18,7 +18,7 @@ namespace clinic.application.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserRepository _userRepository;
 
-        public UserServices(UserManager<User> userManager, SignInManager<User> signInManager,
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager,
             HttpContextAccessor httpContext, RoleManager<IdentityRole> roleManager,
             IUserRepository userRepository)
         {
