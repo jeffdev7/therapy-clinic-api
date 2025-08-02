@@ -1,5 +1,4 @@
 ﻿using clinic.CrossCutting.Dto;
-using clinic.domain.Entities;
 using clinic.domain.Repository.Interfaces;
 using FluentValidation;
 
