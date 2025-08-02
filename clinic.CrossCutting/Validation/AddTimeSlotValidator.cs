@@ -1,4 +1,5 @@
 ﻿using clinic.CrossCutting.Dto;
+using clinic.domain.Entities;
 using clinic.domain.Repository.Interfaces;
 using FluentValidation;
 
@@ -7,7 +8,7 @@ namespace clinic.CrossCutting.Validation
     public class AddTimeSlotValidator : AbstractValidator<TimeSlotViewModel>
     {
         private readonly ITimeSlotRepository _timeSlotRepository;
-        public AddTimeSlotValidator(ITimeSlotRepository timeSlotRepository)
+        public AddTimeSlotValidator(ITimeSlotRepository timeSlotRepository, string userId)
         {
             _timeSlotRepository = timeSlotRepository;
 
@@ -24,7 +25,7 @@ namespace clinic.CrossCutting.Validation
                 .WithMessage("It's not a valid time.");
 
             RuleFor(dt => dt)
-                .Must(dt => DoesTimeAlreadyExist(dt.Start, dt.End))
+                .Must(dt => DoesTimeAlreadyExist(dt.Start, dt.End, userId))
                 .WithMessage("There is already a timeslot with this time.");
         }
 
@@ -34,9 +35,9 @@ namespace clinic.CrossCutting.Validation
                 return true;
             return false;
         }
-        private bool DoesTimeAlreadyExist(DateTime startTime, DateTime endTime)
+        private bool DoesTimeAlreadyExist(DateTime startTime, DateTime endTime, string userId)
         {
-            var dates = _timeSlotRepository.GetStartAndEndTime(startTime, endTime);
+            var dates = _timeSlotRepository.GetStartAndEndTime(startTime, endTime, userId);
 
             if (dates.T1.Any() && dates.T2.Any() || dates.T1.Any())
                 return false;

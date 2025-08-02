@@ -30,7 +30,7 @@ namespace clinic.application.Services
         {
             TimeSlot termine = _mapper.Map<TimeSlot>(vm);
             termine.UserId = _userServices.GetUserId()!;
-            var result = new AddTimeSlotValidator(_timeSlotRepository).Validate(vm);
+            var result = new AddTimeSlotValidator(_timeSlotRepository, termine.UserId).Validate(vm);
 
             if (result.IsValid)
                 _timeSlotRepository.Add(termine);
