@@ -83,14 +83,14 @@ namespace clinic.application.Services
             var userRole = _userServices.GetUserRole();
 
             return _timeSlotRepository.GetAll()
-                .Where(_ => _.UserId == userId)
+                .Where(_ => _.UserId == userId && _.IsBooked == false)
                  .Select(_ => new TimeSlotViewModel
                  {
                      Id = _.Id,
                      Start = _.Start,
                      End = _.End,
                      IsBooked = _.IsBooked
-                 }).OrderByDescending(_ => _.IsBooked == false);
+                 });
         }
         public async Task<bool> Remove(Guid id)
         {
