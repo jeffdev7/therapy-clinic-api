@@ -14,6 +14,10 @@ namespace clinic.CrossCutting.Validation
             RuleFor(_ => _.RequestedTime)
                 .Must(UniqueSlot)
                 .WithMessage("This date is already booked.");
+
+            RuleFor(_ => _.Phone.Number)
+                .Matches("^\\(?[1-9]{2}\\)? ?(?:[2-8]|9[1-9])[0-9]{3,4}[- ]?[0-9]{4}$")
+                .WithMessage("Wrong format.");
         }
 
         private bool UniqueSlot(NewAppointmentTimeSlotViewModel appointment)

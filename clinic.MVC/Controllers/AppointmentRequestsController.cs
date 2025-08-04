@@ -64,7 +64,16 @@ namespace clinic.MVC.Controllers
             };
 
             var result = _appointmentRequestServices.Add(appointmentRequest).GetAwaiter().GetResult();
-
+            
+            if (result.IsError)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                LoadViewBags();
+                return View(appointmentRequest);
+            }
             LoadViewBags();
             TempData["SuccessMessage"] = "Appointment was made successfully.";
             return RedirectToAction("Index", "Home");

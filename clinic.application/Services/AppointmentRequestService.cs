@@ -55,7 +55,7 @@ namespace clinic.application.Services
             _timeSlotRepository.Update(timeSlot);
 
             termine.RequestedTime = timeSlot;
-            _context.RequestedAppointments.Add(termine);
+            _context.RequestedAppointments.Add(termine);//TODO
 
             await _context.SaveChangesAsync();
             return _mapper.Map<AppointmentRequestViewModel>(termine);
