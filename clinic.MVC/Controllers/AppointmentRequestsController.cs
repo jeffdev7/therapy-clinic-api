@@ -51,7 +51,7 @@ namespace clinic.MVC.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(AppointmentRequestViewModel appointmentRequest)//TODO refact
+        public IActionResult Create(AppointmentRequestViewModel appointmentRequest)
         {
             var timeslot = _timeSlotServices.GetAvailableTimeSlots()
                 .SingleOrDefault(_ => _.Id == appointmentRequest.RequestedTime.Id);
@@ -64,7 +64,7 @@ namespace clinic.MVC.Controllers
             };
 
             var result = _appointmentRequestServices.Add(appointmentRequest).GetAwaiter().GetResult();
-            
+
             if (result.IsError)
             {
                 foreach (var error in result.Errors)

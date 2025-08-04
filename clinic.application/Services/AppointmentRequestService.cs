@@ -34,6 +34,7 @@ namespace clinic.application.Services
         public async Task<ErrorOr<AppointmentRequestViewModel>> Add(AppointmentRequestViewModel vm)
         {
             List<Error> validationErrors = new List<Error>();
+
             var timeSlot = _timeSlotRepository.GetAll()
                 .SingleOrDefault(_ => _.Start == vm.RequestedTime.Start
             && _.End == vm.RequestedTime.End
@@ -55,9 +56,8 @@ namespace clinic.application.Services
             _timeSlotRepository.Update(timeSlot);
 
             termine.RequestedTime = timeSlot;
-            _context.RequestedAppointments.Add(termine);//TODO
+            await _appointmentRepository.AddAppointment(termine);
 
-            await _context.SaveChangesAsync();
             return _mapper.Map<AppointmentRequestViewModel>(termine);
         }
 
@@ -71,14 +71,12 @@ namespace clinic.application.Services
 
         public async Task<bool> Remove(Guid id)
         {
-            AppointmentRequest termine = await _context.RequestedAppointments
-                .Where(p => p.Id == id)
-                .FirstOrDefaultAsync();
+            AppointmentRequest termine = _appointmentRepository.GetAppointmentRequestById(id);
 
             if (termine == null)
                 return false;
-            _context.RequestedAppointments.Remove(termine);
-            await _context.SaveChangesAsync();
+            await _appointmentRepository.RemoveAppointmentRequest(termine);
+
             return true;
         }
 
@@ -126,9 +124,7 @@ namespace clinic.application.Services
 
             return _mapper.Map<AppointmentRequestViewModel>(result);
         }
-        public void Dispose()
-        {
+        public void Dispose()=>
             GC.SuppressFinalize(this);
-        }
     }
 }

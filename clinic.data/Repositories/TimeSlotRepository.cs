@@ -17,6 +17,16 @@ namespace clinic.data.Repositories
 
             return (start, end);
         }
+        public TimeSlot GetTimeSlotById(Guid id)
+        {
+            var time = _context.TimeSlots.Where(p => p.Id == id).SingleOrDefault();
+            return time!;
+        }
+        public async Task RemoveTimeSlot(TimeSlot time)
+        {
+            _context.TimeSlots.Remove(time);
+            await _context.SaveChangesAsync();
+        }
 
     }
 }

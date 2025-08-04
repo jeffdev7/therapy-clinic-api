@@ -16,15 +16,13 @@ namespace clinic.application.Services
         private readonly IMapper _mapper;
         private readonly ITimeSlotRepository _timeSlotRepository;
         private readonly IUserService _userServices;
-        private readonly ApplicationContext _context;
 
         public TimeSlotService(IMapper mapper, ITimeSlotRepository timeSlotRepository,
-            IUserService userServices, ApplicationContext context)
+            IUserService userServices)
         {
             _mapper = mapper;
             _timeSlotRepository = timeSlotRepository;
             _userServices = userServices;
-            _context = context;
         }
 
         public ValidationResult AddTimeSlot(TimeSlotViewModel vm)
@@ -94,15 +92,12 @@ namespace clinic.application.Services
         }
         public async Task<bool> Remove(Guid id)
         {
-            TimeSlot timeSlot = await _context
-                .TimeSlots
-                .Where(p => p.Id == id)
-                .FirstOrDefaultAsync();
+            TimeSlot timeSlot = _timeSlotRepository.GetTimeSlotById(id);
 
             if (timeSlot == null)
                 return false;
-            _context.TimeSlots.Remove(timeSlot);
-            await _context.SaveChangesAsync();
+            await _timeSlotRepository.RemoveTimeSlot(timeSlot);
+
             return true;
         }
         public TimeSlotViewModel GetById(Guid id)
@@ -110,9 +105,7 @@ namespace clinic.application.Services
             var timeSlot = _timeSlotRepository.GetById(id);
             return _mapper.Map<TimeSlotViewModel>(timeSlot);
         }
-        public void Dispose()
-        {
+        public void Dispose()=>
             GC.SuppressFinalize(this);
-        }
     }
 }
