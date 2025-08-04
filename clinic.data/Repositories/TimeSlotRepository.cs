@@ -1,6 +1,7 @@
 ﻿using clinic.data.DBConfiguration;
 using clinic.domain.Entities;
 using clinic.domain.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace clinic.data.Repositories
 {
@@ -26,6 +27,11 @@ namespace clinic.data.Repositories
         {
             _context.TimeSlots.Remove(time);
             await _context.SaveChangesAsync();
+        }
+        public EntityState UpdateProperty(TimeSlot time)
+        {
+            var x = _context.Entry(time).State = EntityState.Modified;
+            return x!;
         }
 
     }

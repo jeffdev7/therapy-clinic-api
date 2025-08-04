@@ -3,11 +3,9 @@ using clinic.application.Services.Interfaces;
 using clinic.CrossCutting.Constant;
 using clinic.CrossCutting.Dto;
 using clinic.CrossCutting.Validation;
-using clinic.data.DBConfiguration;
 using clinic.domain.Entities;
 using clinic.domain.Repository.Interfaces;
 using FluentValidation.Results;
-using Microsoft.EntityFrameworkCore;
 
 namespace clinic.application.Services
 {
@@ -105,7 +103,7 @@ namespace clinic.application.Services
             var timeSlot = _timeSlotRepository.GetById(id);
             return _mapper.Map<TimeSlotViewModel>(timeSlot);
         }
-        public void Dispose()=>
+        public void Dispose() =>
             GC.SuppressFinalize(this);
     }
 }

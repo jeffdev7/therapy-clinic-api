@@ -33,7 +33,7 @@
                 @Html.DisplayFor(modelItem => item.ClientName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Phone)
+                @Html.DisplayFor(modelItem => item.Phone.Number)
             </td>
                 <td>
                     @item.RequestedTime.Start.ToString("dd/MM/yyyy HH:mm") - @item.RequestedTime.End.ToString("HH:mm")

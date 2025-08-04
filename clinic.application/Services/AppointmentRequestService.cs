@@ -3,7 +3,6 @@ using clinic.application.Services.Interfaces;
 using clinic.CrossCutting.Constant;
 using clinic.CrossCutting.Dto;
 using clinic.CrossCutting.Validation;
-using clinic.data.DBConfiguration;
 using clinic.domain.Entities;
 using clinic.domain.Repository.Interfaces;
 using ErrorOr;
@@ -18,17 +17,14 @@ namespace clinic.application.Services
         private readonly IAppointmentRequestRepository _appointmentRepository;
         private readonly ITimeSlotRepository _timeSlotRepository;
         private readonly IUserService _userService;
-        private readonly ApplicationContext _context;
 
         public AppointmentRequestService(IMapper mapper, IAppointmentRequestRepository appointmentRepository,
-            ITimeSlotRepository timeSlotRepository, IUserService userService,
-            ApplicationContext context)
+            ITimeSlotRepository timeSlotRepository, IUserService userService)
         {
             _mapper = mapper;
             _appointmentRepository = appointmentRepository;
             _userService = userService;
             _timeSlotRepository = timeSlotRepository;
-            _context = context;
         }
 
         public async Task<ErrorOr<AppointmentRequestViewModel>> Add(AppointmentRequestViewModel vm)
@@ -52,7 +48,7 @@ namespace clinic.application.Services
             }
 
             timeSlot!.IsBooked = true;
-            _context.Entry(timeSlot).State = EntityState.Modified;
+            _timeSlotRepository.UpdateProperty(timeSlot);
             _timeSlotRepository.Update(timeSlot);
 
             termine.RequestedTime = timeSlot;
@@ -124,7 +120,7 @@ namespace clinic.application.Services
 
             return _mapper.Map<AppointmentRequestViewModel>(result);
         }
-        public void Dispose()=>
+        public void Dispose() =>
             GC.SuppressFinalize(this);
     }
 }
