@@ -59,25 +59,6 @@ namespace clinic.application.Services
 
             await _context.SaveChangesAsync();
             return _mapper.Map<AppointmentRequestViewModel>(termine);
-
-            //foreach (var timeSlot in timeSlots)
-            //{
-            //    if (timeSlot.Start == termine.RequestedTime.Start
-            //        && timeSlot.End == termine.RequestedTime.End
-            //        && timeSlot.IsBooked is false)
-            //    {
-            //        timeSlot.IsBooked = true;
-            //        _context.Entry(timeSlot).State = EntityState.Modified;
-            //        _timeSlotRepository.Update(timeSlot);
-
-            //        termine.RequestedTime = timeSlot;
-            //        _context.RequestedAppointments.Add(termine);
-
-            //        await _context.SaveChangesAsync();
-            //        return _mapper.Map<AppointmentRequestViewModel>(termine);
-            //    }
-            //}
-
         }
 
         public IEnumerable<GetAppointmentRequestViewModel> GetAll()
@@ -99,14 +80,6 @@ namespace clinic.application.Services
             _context.RequestedAppointments.Remove(termine);
             await _context.SaveChangesAsync();
             return true;
-        }
-
-        public async Task<AppointmentRequestViewModel> Update(AppointmentRequestViewModel vm)
-        {
-            AppointmentRequest termine = _mapper.Map<AppointmentRequest>(vm);
-            _context.RequestedAppointments.Update(termine);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<AppointmentRequestViewModel>(termine);
         }
 
         public IQueryable<AppointmentRequestIndexViewModel> GetAllAppointmentsForIndex()

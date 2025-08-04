@@ -10,11 +10,6 @@ namespace clinic.data.Repositories
         public AppointmentRequestRepository(ApplicationContext context) : base(context)
         {
         }
-
-        public IQueryable<AppointmentRequest> GetAppointments()
-        {
-            return _context.RequestedAppointments;
-        }
         public AppointmentRequest GetAppointmentRequestById(Guid id)
         {
             return _context.RequestedAppointments
