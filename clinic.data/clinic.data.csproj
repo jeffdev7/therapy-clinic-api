@@ -12,7 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.17">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -26,7 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+	<Content Include="Migrations\**\*.*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-
+	<PropertyGroup>
+		<AssemblyName>clinic.data</AssemblyName>
+	</PropertyGroup>
 </Project>

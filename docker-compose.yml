@@ -1,0 +1,25 @@
+services:
+  clinic.mvc:
+    image: ${DOCKER_REGISTRY-}clinicmvc
+    build:
+      context: .
+      dockerfile: clinic.MVC/Dockerfile
+    depends_on:
+      - clinic.database
+    environment:
+        - ConnectionStrings__DefaultConnection=Host=clinic.database;Port=5432;Database=booking;Username=clinic;Password=postgres;Include Error Detail=true
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+   
+  clinic.database:
+    image: postgres:latest
+
+    environment:
+        - POSTGRES_DB=booking
+        - POSTGRES_USER=clinic
+        - POSTGRES_PASSWORD=postgres
+    volumes:
+        - ./.containers/booking:/var/lib/postgresql/data
+    ports:
+    - 5433:5432

@@ -14,12 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationContext>(options =>
 options.UseNpgsql(connection));
-//builder.Services.AddDbContext<ApplicationContext>(options =>
-//    options.UseSqlServer(
-//        builder.Configuration.GetConnectionString("DefaultConnection"),
-//        sqlOptions => sqlOptions.EnableRetryOnFailure()
-//    )
-//);
 
 builder.Services.AddAutoMapper(typeof(DomainViewModelMapping));
 
