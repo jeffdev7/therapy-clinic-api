@@ -7,7 +7,7 @@ services:
     depends_on:
       - clinic.database
     environment:
-        - ConnectionStrings__DefaultConnection=Host=clinic.database;Port=5432;Database=booking;Username=clinic;Password=postgres;Include Error Detail=true
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://app-jaeger:4317"
     ports:
       - "5000:5000"
       - "5001:5001"
@@ -23,3 +23,10 @@ services:
         - ./.containers/booking:/var/lib/postgresql/data
     ports:
     - 5433:5432
+  app-jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: mvc.jaeger
+    ports:
+        - 4317:4317
+        - 4318:4318
+        - 16686:16686 

@@ -4,6 +4,7 @@ using clinic.domain.Entities;
 using clinic.IoC;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -43,12 +44,19 @@ builder.Logging.AddOpenTelemetry(options =>
 });
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(resource => resource.AddService("clinic.MVC"))
-    .WithTracing(tracing => tracing
-    .AddAspNetCoreInstrumentation()
-    .AddConsoleExporter())
-    .WithMetrics(metrics => metrics
-    .AddAspNetCoreInstrumentation()
-    .AddConsoleExporter());
+    .WithTracing(tracing =>
+    {
+        tracing
+        .SetResourceBuilder(
+            ResourceBuilder.CreateDefault()
+            .AddService(serviceName: "clinic.MVC"))
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddNpgsql()
+        .AddOtlpExporter()
+        .AddConsoleExporter();
+
+    });
 
 var app = builder.Build();
 
