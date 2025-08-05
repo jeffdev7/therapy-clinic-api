@@ -5,23 +5,23 @@
 @{
     ViewData["Title"] = "Index";
 }
+<br />
+<h2>Appointment</h2>
 
-<h1>Appointment</h1>
-
-<p>
+@* <p>
     <a asp-action="Create">Book an appointment</a>
-</p>
+</p> *@
 <table class="table">
     <thead>
         <tr>
             <th>
-                ClientName
+                Name
             </th>
             <th>
                 Phone
             </th>
             <th>
-                RequestedTime
+                Requested Time
             </th>
             <th></th>
         </tr>
@@ -33,14 +33,14 @@
                 @Html.DisplayFor(modelItem => item.ClientName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Phone)
+                @Html.DisplayFor(modelItem => item.Phone.Number)
             </td>
                 <td>
                     @item.RequestedTime.Start.ToString("dd/MM/yyyy HH:mm") - @item.RequestedTime.End.ToString("HH:mm")
                    
                 </td>
             <td>
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }

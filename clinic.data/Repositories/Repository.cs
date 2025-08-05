@@ -29,12 +29,6 @@ namespace clinic.data.Repositories
 
         public IQueryable<TEntity> GetAll() => _dbSet.AsNoTracking();
 
-
-        public IQueryable<TEntity> GetAllBy(Func<TEntity, bool> exp)
-        {
-            return _dbSet.Where(exp).AsQueryable();
-        }
-
         public TEntity GetById(Guid id)
         {
             return _context.Set<TEntity>().Find(id);

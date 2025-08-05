@@ -10,13 +10,13 @@ namespace clinic.MVC.Controllers
     [Authorize]
     public class AppointmentRequestsController : Controller
     {
-        private readonly IAppointmentRequestServices _appointmentRequestServices;
-        private readonly ITimeSlotServices _timeSlotServices;
-        private readonly IUserServices _userService;
+        private readonly IAppointmentRequestService _appointmentRequestServices;
+        private readonly ITimeSlotService _timeSlotServices;
+        private readonly IUserService _userService;
 
-        public AppointmentRequestsController(IAppointmentRequestServices appointmentRequestServices
-            , ITimeSlotServices timeSlotServices,
-             IUserServices userService)
+        public AppointmentRequestsController(IAppointmentRequestService appointmentRequestServices
+            , ITimeSlotService timeSlotServices,
+             IUserService userService)
         {
             _appointmentRequestServices = appointmentRequestServices;
             _timeSlotServices = timeSlotServices;
@@ -33,6 +33,7 @@ namespace clinic.MVC.Controllers
 
             return View(await Pagination<AppointmentRequestIndexViewModel>.CreateAsync(appointments, pageNumber, pageSize));
         }
+
         [AllowAnonymous]
         public IActionResult Create()
         {
@@ -46,10 +47,11 @@ namespace clinic.MVC.Controllers
             }).ToList();
             return View();
         }
+
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(AppointmentRequestViewModel appointmentRequest)//TODO refact
+        public IActionResult Create(AppointmentRequestViewModel appointmentRequest)
         {
             var timeslot = _timeSlotServices.GetAvailableTimeSlots()
                 .SingleOrDefault(_ => _.Id == appointmentRequest.RequestedTime.Id);
@@ -63,11 +65,21 @@ namespace clinic.MVC.Controllers
 
             var result = _appointmentRequestServices.Add(appointmentRequest).GetAwaiter().GetResult();
 
+            if (result.IsError)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                LoadViewBags();
+                return View(appointmentRequest);
+            }
             LoadViewBags();
-
-            return RedirectToAction(nameof(Index));
+            TempData["SuccessMessage"] = "Appointment was made successfully.";
+            return RedirectToAction("Index", "Home");
         }
 
+        [Authorize(Roles = "Client")]
         public IActionResult Delete(Guid id)
         {
             var appointment = _appointmentRequestServices.GetById(id);
@@ -79,6 +91,7 @@ namespace clinic.MVC.Controllers
             return View(appointment);
         }
 
+        [Authorize(Roles = "Client")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -86,16 +99,15 @@ namespace clinic.MVC.Controllers
             await _appointmentRequestServices.Remove(id);
             return RedirectToAction(nameof(Index));
         }
-        private void LoadViewBags()
-        {
-            ViewBag.TimeSlots = _appointmentRequestServices.GetAll().ToList();
-            ViewBag.Users = _userService.GetAllUsernames();
-        }
 
         [AllowAnonymous]
         [HttpGet]
         public IActionResult GetSelectedUser(string userId)
         {
+            var test = _userService.GetRoleByUserId(userId);
+
+            if (test is null)
+                return Json(new List<SelectListItem>());
             var slots = _timeSlotServices.GetAllByUserId(userId);
 
             var selectList = slots.Select(_ => new SelectListItem
@@ -105,6 +117,11 @@ namespace clinic.MVC.Controllers
             }).ToList();
 
             return Json(selectList);
+        }
+        private void LoadViewBags()
+        {
+            ViewBag.TimeSlots = _appointmentRequestServices.GetAll().ToList();
+            ViewBag.Users = _userService.GetAllClientsUsernames();
         }
     }
 }

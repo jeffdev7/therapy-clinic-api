@@ -3,7 +3,7 @@ using FluentValidation.Results;
 
 namespace clinic.application.Services.Interfaces
 {
-    public interface ITimeSlotServices : IDisposable
+    public interface ITimeSlotService : IDisposable
     {
         ValidationResult AddTimeSlot(TimeSlotViewModel vm);
         IEnumerable<TimeSlotViewModel> GetTimeSlot();

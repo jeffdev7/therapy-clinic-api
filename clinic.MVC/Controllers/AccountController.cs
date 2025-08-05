@@ -8,9 +8,9 @@ namespace clinic.MVC.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUserServices _userServices;
+        private readonly IUserService _userServices;
 
-        public AccountController(IUserServices userServices)
+        public AccountController(IUserService userServices)
         {
             _userServices = userServices;
         }
@@ -27,6 +27,7 @@ namespace clinic.MVC.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _userServices.LogIn(login);
+
                 if (result.Succeeded)
                     return RedirectToAction("Index", "Home");
 

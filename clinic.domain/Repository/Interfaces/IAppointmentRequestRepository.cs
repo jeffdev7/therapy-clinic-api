@@ -4,7 +4,9 @@ namespace clinic.domain.Repository.Interfaces
 {
     public interface IAppointmentRequestRepository : IRepository<AppointmentRequest>
     {
-        IQueryable<AppointmentRequest> GetAppointments();
         AppointmentRequest GetAppointmentRequestById(Guid id);
+        Task AddAppointment(AppointmentRequest appointmentRequest);
+        AppointmentRequest GetAppointmentById(Guid id);
+        Task RemoveAppointmentRequest(AppointmentRequest appointment);
     }
 }

@@ -16,6 +16,7 @@ namespace clinic.data.DBConfiguration
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AppointmentRequest>().OwnsOne(_ => _.Phone);
             base.OnModelCreating(modelBuilder);
         }
     }

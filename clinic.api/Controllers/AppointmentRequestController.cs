@@ -8,9 +8,9 @@ namespace clinic.api.Controllers
     [Route("[controller]")]
     public class AppointmentRequestController : Controller
     {
-        private readonly IAppointmentRequestServices _appointmentServices;
+        private readonly IAppointmentRequestService _appointmentServices;
 
-        public AppointmentRequestController(IAppointmentRequestServices appointmentServices)
+        public AppointmentRequestController(IAppointmentRequestService appointmentServices)
         {
             _appointmentServices = appointmentServices;
         }

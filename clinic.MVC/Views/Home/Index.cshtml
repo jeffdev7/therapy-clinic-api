@@ -2,7 +2,58 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Booking</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="d-flex flex-column align-items-center" style="height:50vh">
+    <h1 class="display-4 mb-4 mt-5">Booking</h1>
+    <div class="d-flex justify-content-center mt-5">
+        <a class="btn btn-primary" style="min-width:300px" asp-controller="AppointmentRequests" asp-action="Create">Make an appointment</a>
+    </div>
 </div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="msgId" class="custom-success-box">
+        <p id="infoMsg">@TempData["SuccessMessage"]</p>
+    </div>
+}
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+          const message = document.getElementById('msgId');
+          if (message) {
+              setTimeout(() => {
+                  message.style.transition = "opacity 1s ease-out";
+                  message.style.opacity = "0";
+              }, 3000);
+          }
+      });
+</script>
+
+<style>
+    .custom-success-box {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #e0ffe0;
+        border: 1px solid #6cc070;
+        padding: 1rem 1.5rem;
+        border-radius: 6px;
+        color: #2f6d2f;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 1050;
+        max-width: 90%;
+        width: fit-content;
+    }
+
+    .top-alert {
+        position: absolute;
+        top: 20px;
+        z-index: 1000;
+    }
+    #infoMsg {
+        color: black
+    }
+
+    #msgId{
+        background-color:lightskyblue
+    }
+</style>

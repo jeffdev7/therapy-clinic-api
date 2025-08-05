@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace clinic.application.Services
 {
-    public class UserServices : IUserServices
+    public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -18,7 +18,7 @@ namespace clinic.application.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserRepository _userRepository;
 
-        public UserServices(UserManager<User> userManager, SignInManager<User> signInManager,
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager,
             HttpContextAccessor httpContext, RoleManager<IdentityRole> roleManager,
             IUserRepository userRepository)
         {
@@ -74,12 +74,27 @@ namespace clinic.application.Services
 
             return result;
         }
-        public void Dispose() => GC.SuppressFinalize(this);
 
-        public IEnumerable<User> GetAllUsernames()
+        public IEnumerable<User> GetAllClientsUsernames()
         {
+            List<User> clients = new();
             var user = _userRepository.GetAllUsers().ToList();
+
+            foreach (var item in user)
+            {
+                var userRole = _userRepository.GetUserRoleById(item.Id);
+                if (userRole.Name is not Constant.Role)
+                        clients.Add(item);
+            }
+            return clients;
+        }
+        public IdentityRole<string> GetRoleByUserId(string userId)
+        {
+            var user = _userRepository.GetUserRoleById(userId);
+            if (user.Name == Constant.Role)
+                return null;
             return user;
         }
+        public void Dispose() => GC.SuppressFinalize(this);
     }
 }
