@@ -121,7 +121,7 @@ namespace clinic.MVC.Controllers
         private void LoadViewBags()
         {
             ViewBag.TimeSlots = _appointmentRequestServices.GetAll().ToList();
-            ViewBag.Users = _userService.GetAllUsernames();
+            ViewBag.Users = _userService.GetAllClientsUsernames();
         }
     }
 }

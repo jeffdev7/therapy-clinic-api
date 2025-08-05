@@ -75,10 +75,18 @@ namespace clinic.application.Services
             return result;
         }
 
-        public IEnumerable<User> GetAllUsernames()
+        public IEnumerable<User> GetAllClientsUsernames()
         {
+            List<User> clients = new();
             var user = _userRepository.GetAllUsers().ToList();
-            return user;
+
+            foreach (var item in user)
+            {
+                var userRole = _userRepository.GetUserRoleById(item.Id);
+                if (userRole.Name is not Constant.Role)
+                        clients.Add(item);
+            }
+            return clients;
         }
         public IdentityRole<string> GetRoleByUserId(string userId)
         {
