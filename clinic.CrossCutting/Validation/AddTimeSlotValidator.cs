@@ -36,7 +36,10 @@ namespace clinic.CrossCutting.Validation
         }
         private bool DoesTimeAlreadyExist(DateTime startTime, DateTime endTime, string userId)
         {
-            var dates = _timeSlotRepository.GetStartAndEndTime(startTime, endTime, userId);
+            var startDt = DateTime.SpecifyKind(startTime, DateTimeKind.Utc);
+            var endDt = DateTime.SpecifyKind(endTime, DateTimeKind.Utc);
+
+            var dates = _timeSlotRepository.GetStartAndEndTime(startDt, endDt, userId);
 
             if (dates.T1.Any() && dates.T2.Any() || dates.T1.Any())
                 return false;
