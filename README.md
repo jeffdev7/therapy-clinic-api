@@ -5,7 +5,25 @@
 <img width="674" height="351" alt="flow" src="https://github.com/user-attachments/assets/dd700265-c2ff-4d7f-9cc7-ace5523139f9" />
 
 ## Business logic
-#TO-DO
+
+<h4>Client entry his/her schedule</h4>
+
+<img width="1230" height="513" alt="timeslots-joe" src="https://github.com/user-attachments/assets/a2d568e4-1a81-40da-9981-b24eca9232a3" />
+
+<img width="583" height="231" alt="thereisalreadyatimelikethat" src="https://github.com/user-attachments/assets/f97addca-1b6f-45b5-abf6-da986bb016a1" />
+
+<h4>Client's agenda</h4>
+
+<img width="1238" height="398" alt="appointments-of-joe" src="https://github.com/user-attachments/assets/645c310d-983b-4b5a-8066-433abf0d5141" />
+
+<h4>Client's client making an appointment</h4>
+<p>All the available times are displayed.</p>
+<img width="527" height="416" alt="make-appointment" src="https://github.com/user-attachments/assets/3f311798-729c-4a3a-b6b4-64b3acf69d72" />
+
+<h4>Home</h4>
+<img width="626" height="271" alt="image" src="https://github.com/user-attachments/assets/96768e34-25b5-471d-918c-1a08e3a5c262" />
+
+
 ## Docker
 <h4>Execute the dockerized app</h4>
 <h5>Apply migration on the root if there isn't one already.</h5>
