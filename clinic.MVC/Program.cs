@@ -63,7 +63,7 @@ var app = builder.Build();
 //{
 //    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
 //    db.Database.Migrate();
-//} #only for docker
+//} //#only for docker
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -83,6 +83,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=TimeSlots}/{action=Create}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
