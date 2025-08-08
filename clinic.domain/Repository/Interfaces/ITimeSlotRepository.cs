@@ -9,5 +9,6 @@ namespace clinic.domain.Repository.Interfaces
         Task RemoveTimeSlot(TimeSlot time);
         TimeSlot GetTimeSlotById(Guid id);
         EntityState UpdateProperty(TimeSlot time);
+        IEnumerable<DateTime> GetStartTimeRange(string userId);
     }
 }
