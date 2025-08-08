@@ -14,6 +14,9 @@ namespace clinic.CrossCutting.Validation
             RuleFor(_ => _.Start)
                 .Must(IsValidDate)
                 .WithMessage("It's not a valid date.");
+            RuleFor(_ => _)
+                  .Must(_ => DefaultBeginStartTimeExist(_.Start, userId))
+                  .WithMessage("Start time might collide with another.");
 
             RuleFor(_ => _.End)
                 .Must(IsValidDate)
@@ -41,10 +44,25 @@ namespace clinic.CrossCutting.Validation
 
             var dates = _timeSlotRepository.GetStartAndEndTime(startDt, endDt, userId);
 
-            if (dates.T1.Any() && dates.T2.Any() || dates.T1.Any())
+            if (dates.T1.Any() && dates.T2.Any() || dates.T1.Any() || dates.T2.Any())
                 return false;
             return true;
 
+        }
+        private bool DefaultBeginStartTimeExist(DateTime startTime, string userId)
+        {
+            var startDt = DateTime.SpecifyKind(startTime, DateTimeKind.Utc);
+            var result = _timeSlotRepository.GetStartTimeRange(userId);
+
+            foreach (var date in result)
+            {
+                if (date.Date == startDt.Date
+                    && date.Hour == startDt.Hour
+                    && (startDt.AddMinutes(30) - date).TotalMinutes <= 59)
+                    return false;
+            }
+
+            return true;
         }
     }
 }

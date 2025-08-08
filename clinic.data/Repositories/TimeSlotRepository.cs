@@ -18,6 +18,11 @@ namespace clinic.data.Repositories
 
             return (start, end);
         }
+        public IEnumerable<DateTime> GetStartTimeRange(string userId)
+        {
+            return _context.TimeSlots.Where(u => u.UserId == userId)
+               .Select(_ => _.Start);
+        }
         public TimeSlot GetTimeSlotById(Guid id)
         {
             var time = _context.TimeSlots.Where(p => p.Id == id).SingleOrDefault();
