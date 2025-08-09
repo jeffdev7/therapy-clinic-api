@@ -3,12 +3,14 @@ using clinic.data.DBConfiguration;
 using clinic.domain.Entities;
 using clinic.IoC;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,6 +72,17 @@ var app = builder.Build();
 //    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
 //    db.Database.Migrate();
 //} //#only for docker
+
+var cultureInfo = new CultureInfo("pt-BR");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+var supportedCultures = new[] { cultureInfo };
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(cultureInfo),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

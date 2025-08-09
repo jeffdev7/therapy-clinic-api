@@ -37,6 +37,10 @@ namespace clinic.MVC.Controllers
         [AllowAnonymous]
         public IActionResult Create()
         {
+            var isAUser = _userService.GetUserId();
+            if(isAUser != null)
+                return RedirectToAction("Index", "AppointmentRequests");
+
             LoadViewBags();
             var timeslots = _timeSlotServices.GetAvailableTimeSlots();
             var t = ViewBag.TimeSlots = timeslots.Select(_ => new SelectListItem
