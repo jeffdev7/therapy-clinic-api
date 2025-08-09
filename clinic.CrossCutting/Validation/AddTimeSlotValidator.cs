@@ -13,23 +13,23 @@ namespace clinic.CrossCutting.Validation
 
             RuleFor(_ => _.Start)
                 .Must(IsValidDate)
-                .WithMessage("It's not a valid date.");
+                .WithMessage("Insira uma data válida.");
 
             RuleFor(_ => _)
              .Must(_ => DefaultBeginStartTimeExist(_.Start, userId))
-             .WithMessage("Start time might collide with another.");
+             .WithMessage("Hora inicial pode colidir com outro agendamento.");
 
             RuleFor(_ => _.End)
                 .Must(IsValidDate)
-                .WithMessage("It's not a valid date.");
+                .WithMessage("Insira uma data válida.");
 
             RuleFor(dt => dt)
                 .Must(dt => dt.End > dt.Start && (dt.End - dt.Start).TotalMinutes >= 30)
-                .WithMessage("It's not a valid time.");
+                .WithMessage("Insira uma hora válida.");
 
             RuleFor(dt => dt)
                 .Must(dt => DoesTimeAlreadyExist(dt.Start, dt.End, userId))
-                .WithMessage("There is already a timeslot with this time.");
+                .WithMessage("Já existe um horário criado com esta hora.");
         }
 
         private static bool IsValidDate(DateTime date)

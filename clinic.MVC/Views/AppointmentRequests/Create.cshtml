@@ -5,9 +5,8 @@
     ViewData["Title"] = "Create";
 }
 <br />
-<h2>Create</h2>
 
-<h4>Appointment Request</h4>
+<h4>Agendamento</h4>
 <hr />
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -16,12 +15,12 @@
         <!-- LEFT COLUMN: Form Fields -->
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="ClientName" class="control-label">Name</label>
+                <label asp-for="ClientName" class="control-label">Nome</label>
                 <input asp-for="ClientName" class="form-control" />
                 <span asp-validation-for="ClientName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
+                <label asp-for="Phone" class="control-label">Número de celular</label>
                 <input asp-for="Phone.Number" class="form-control w-50" />
                 <span asp-validation-for="Phone.Number" class="text-danger"></span>
             </div>
@@ -29,7 +28,7 @@
 
         <div class="form-group">
             <label asp-for="UserId" class="control-label">User</label>
-            <select id="userSelect" asp-for="UserId" class="form-control w-25">
+            <select id="userSelect" asp-for="UserId" class="form-control w-50">
                 <option value="0">Selecione</option>
                 @foreach (var item in ViewBag.Users)
                 {
@@ -39,11 +38,12 @@
             </select>
         </div>
         <span asp-validation-for=UserId class="text-danger"></span>
-
+        
         <!-- RIGHT COLUMN: Time Slots -->
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="RequestedTime" class="control-label">Requested Time</label>
+                <br />
+                <label asp-for="RequestedTime" class="control-label">Horários disponíveis:</label>
                 <div id="timeSlotContainer" class="d-flex flex-wrap gap-2">
                    @*  @foreach (var slot in ViewBag.TimeSlots as List<SelectListItem>)
                     {
@@ -56,14 +56,10 @@
     </div>
 
     <div class="form-group mt-3">
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Agendar" class="btn btn-primary" />
     </div>
 </form>
 
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
