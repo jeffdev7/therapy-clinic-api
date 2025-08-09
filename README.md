@@ -64,7 +64,10 @@ docker ps
             <li><strong>main</strong></li>
             <li><strong>release: </strong>copy of main;</li>
             <li><strong>hml: </strong> without the API project;</li>
-            <li><strong>release-non-prod: </strong> copy of hml;</li>
         </ul>
     </ul>
 </ul>
+
+## Deployment
+<p>Deployment is being made on AWS using the branch hml.</p>
+<br/>
