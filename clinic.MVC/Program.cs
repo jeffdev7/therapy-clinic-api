@@ -67,11 +67,11 @@ builder.Services.AddOpenTelemetry()
     });
 
 var app = builder.Build();
-//using (var scope = app.Services.CreateScope())
-//{
-//    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-//    db.Database.Migrate();
-//} //#only for docker
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+    db.Database.Migrate();
+} //#only for docker
 
 var cultureInfo = new CultureInfo("pt-BR");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
