@@ -13,7 +13,7 @@ namespace clinic.CrossCutting.Validation
 
             RuleFor(_ => _.RequestedTime)
                 .Must(UniqueSlot)
-                .WithMessage("This date is already booked.");
+                .WithMessage("Esta data já está agendada.");
         }
 
         private bool UniqueSlot(NewAppointmentTimeSlotViewModel appointment)

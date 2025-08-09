@@ -65,11 +65,11 @@ builder.Services.AddOpenTelemetry()
     });
 
 var app = builder.Build();
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-    db.Database.Migrate();
-} //#only for docker
+//using (var scope = app.Services.CreateScope())
+//{
+//    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+//    db.Database.Migrate();
+//} //#only for docker
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

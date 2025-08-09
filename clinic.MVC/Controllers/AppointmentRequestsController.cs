@@ -75,7 +75,7 @@ namespace clinic.MVC.Controllers
                 return View(appointmentRequest);
             }
             LoadViewBags();
-            TempData["SuccessMessage"] = "Appointment was made successfully.";
+            TempData["SuccessMessage"] = "Horário agendado com sucesso.";
             return RedirectToAction("Index", "Home");
         }
 

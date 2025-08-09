@@ -6,27 +6,26 @@
 }
 
 <br />
-<h3>Delete</h3>
 
-<h4>Are you sure you want to delete this?</h4>
+<h4>Tem certeza que deseja excluir este horário?</h4>
 <div>
-    <h4>Time Slot</h4>
+    <h4>Horário</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Start)
+            Hora inicial
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Start)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.End)
+            Hora final
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.End)
         </dd>
         <dt class = "col-sm-2">
-            Is Booked
+            Está agendado?
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IsBooked)
@@ -35,6 +34,6 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" />
+        <input type="submit" value="Excluir" class="btn btn-danger" />
     </form>
 </div>
