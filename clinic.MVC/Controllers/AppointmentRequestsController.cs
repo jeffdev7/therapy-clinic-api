@@ -79,7 +79,7 @@ namespace clinic.MVC.Controllers
                 return View(appointmentRequest);
             }
             LoadViewBags();
-            TempData["SuccessMessage"] = "Horário agendado com sucesso.";
+            TempData["SuccessMessage"] = $"Horário agendado:\nDia {appointmentRequest.RequestedTime.Start.ToString("dd/MM/yyyy")} ás {appointmentRequest.RequestedTime.Start.ToString("HH:mm")}";
             return RedirectToAction("Index", "Home");
         }
 
