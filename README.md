@@ -45,6 +45,13 @@ docker-compose up
 docker ps
 </code></pre>
 
+### Alternative for the docker commands:
+Run this <a href="https://github.com/jeffdev7/therapy-clinic-api">script</a>
+and for checking out the ports:
+<pre><code>
+docker ps
+</code></pre>
+
 ## Observability
 <ul>
     <ul>
