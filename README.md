@@ -46,7 +46,7 @@ docker ps
 </code></pre>
 
 ### Alternative for the docker commands:
-Run this <a href="https://github.com/jeffdev7/therapy-clinic-api">script</a>
+Run this <a href="https://github.com/jeffdev7/dockerize-app-script">script</a>
 and for checking out the ports:
 <pre><code>
 docker ps
